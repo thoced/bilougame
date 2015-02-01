@@ -730,8 +730,76 @@
          "type":"imagelayer",
          "visible":true,
          "width":256,
-         "x":448,
-         "y":832
+         "x":352,
+         "y":480
+        }, 
+        {
+         "height":64,
+         "image":"..\/Textures\/shipB022.png",
+         "name":"Copie de physic",
+         "opacity":1,
+         "properties":
+            {
+             "danger":"false",
+             "masse":"0.5",
+             "type_calque":"physique"
+            },
+         "type":"imagelayer",
+         "visible":true,
+         "width":256,
+         "x":3072,
+         "y":1248
+        }, 
+        {
+         "height":64,
+         "image":"..\/Textures\/shipB022.png",
+         "name":"Copie de Copie de physic",
+         "opacity":1,
+         "properties":
+            {
+             "danger":"false",
+             "masse":"0.5",
+             "type_calque":"physique"
+            },
+         "type":"imagelayer",
+         "visible":true,
+         "width":256,
+         "x":4768,
+         "y":1024
+        }, 
+        {
+         "height":64,
+         "image":"..\/Textures\/ship002.png",
+         "name":"Copie de Copie de Copie de physic",
+         "opacity":1,
+         "properties":
+            {
+             "danger":"false",
+             "masse":"0.5",
+             "type_calque":"physique"
+            },
+         "type":"imagelayer",
+         "visible":true,
+         "width":256,
+         "x":2048,
+         "y":544
+        }, 
+        {
+         "height":64,
+         "image":"..\/Textures\/ship013.png",
+         "name":"physic collone",
+         "opacity":1,
+         "properties":
+            {
+             "danger":"false",
+             "masse":"10",
+             "type_calque":"physique"
+            },
+         "type":"imagelayer",
+         "visible":true,
+         "width":256,
+         "x":736,
+         "y":623
         }],
  "nextobjectid":42,
  "orientation":"orthogonal",

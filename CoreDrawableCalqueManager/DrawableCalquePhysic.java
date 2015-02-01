@@ -10,6 +10,7 @@ import java.util.List;
 import org.jbox2d.collision.shapes.ChainShape;
 import org.jbox2d.collision.shapes.MassData;
 import org.jbox2d.collision.shapes.PolygonShape;
+import org.jbox2d.common.Settings;
 import org.jbox2d.common.Transform;
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.Body;
@@ -96,11 +97,15 @@ public class DrawableCalquePhysic extends DrawableCalqueBase
 		fixture.shape = ps;
 		fixture.friction = 0.5f;
 		fixture.restitution = 0.0f;
-		fixture.density = 0.2f;
+		fixture.density = 0.1f;
 		
 		
 		// on applique le tout
 		this.body.createFixture(fixture);
+		
+		// modification de l'origine de la texture
+		this.imageCalque.setOrigin(new Vector2f(this.imageCalque.getTexture().getSize().x /2,this.imageCalque.getTexture().getSize().y /2));
+		
 		
 		
 	}
@@ -117,12 +122,10 @@ public class DrawableCalquePhysic extends DrawableCalqueBase
 	public void Update(Time deltaTime) 
 	{
 		// TODO Auto-generated method stub
-		this.imageCalque.setOrigin(new Vector2f(this.imageCalque.getTexture().getSize().x /2,this.imageCalque.getTexture().getSize().y /2));
 		Vector2f v = new Vector2f(this.body.getPosition().x * PhysicWorld.getRatioPixelMeter(),this.body.getPosition().y * PhysicWorld.getRatioPixelMeter());
 		this.imageCalque.setPosition(v);
-		
-		Transform t = this.body.getTransform();
 		this.imageCalque.setRotation((float)((this.body.getAngle() * 180) / Math.PI) % 360);
+		
 		
 	}
 
