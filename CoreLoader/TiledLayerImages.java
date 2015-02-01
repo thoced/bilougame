@@ -1,4 +1,4 @@
-package Loader;
+package CoreLoader;
 
 import org.jsfml.graphics.Sprite;
 

@@ -1,4 +1,4 @@
-package Loader;
+package CoreLoader;
 
 import java.io.File;
 import java.io.IOException;

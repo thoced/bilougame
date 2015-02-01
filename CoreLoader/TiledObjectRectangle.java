@@ -1,4 +1,4 @@
-package Loader;
+package CoreLoader;
 
 public class TiledObjectRectangle extends TiledObjectBase 
 {

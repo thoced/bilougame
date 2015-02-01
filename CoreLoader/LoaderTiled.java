@@ -1,4 +1,4 @@
-package Loader;
+package CoreLoader;
 
 import java.io.IOException;
 import java.io.InputStream;
