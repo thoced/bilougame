@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.StringTokenizer;
 
 import javax.swing.JOptionPane;
 
@@ -470,7 +471,7 @@ public class Framework
 						// on récupère les informations de danger
 						boolean danger = calque.isDanger();
 						// on créer le nom de fichier .phy
-						String[] temp = nameText.split(".");
+						String[] temp = nameText.split("\\.");
 						// on récupère la première partie et on ajoute l'extension phy
 						String namePhy = temp[0] + ".phy";
 						// on crée l'objet calque physique
