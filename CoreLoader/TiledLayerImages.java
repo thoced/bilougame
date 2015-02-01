@@ -27,20 +27,124 @@ public class TiledLayerImages
 		
 	// speed
 		private float speed;  // m/s
+	// danger -> détermine si l'objet en question est un danger pour le player
+		private boolean danger;
+	// masse
+		private float masse;
+	// sens (de rotation)  true -> sens horlogé, false -> sens anti-horlogé
+		private boolean sensRotation; 
+	// taille de la tiles d'animation
+		private int widthAnimation,heightAnimation;
+	// nombre de tiles pour l'animation
+		private int nombreAnimation;
 
-		/**
-		 * @return the image
-		 */
-		
-
-		/**
-		 * @return the posx
-		 */
-		
-		
 		
 		public float getPosx() {
 			return posx;
+		}
+
+		
+	
+
+		/**
+		 * @return the widthAnimation
+		 */
+		public int getWidthAnimation() {
+			return widthAnimation;
+		}
+
+
+
+
+		/**
+		 * @param widthAnimation the widthAnimation to set
+		 */
+		public void setWidthAnimation(int widthAnimation) {
+			this.widthAnimation = widthAnimation;
+		}
+
+
+
+
+		/**
+		 * @return the heightAnimation
+		 */
+		public int getHeightAnimation() {
+			return heightAnimation;
+		}
+
+
+
+
+		/**
+		 * @param heightAnimation the heightAnimation to set
+		 */
+		public void setHeightAnimation(int heightAnimation) {
+			this.heightAnimation = heightAnimation;
+		}
+
+
+
+		/**
+		 * @return the nombreAnimation
+		 */
+		public int getNombreAnimation() {
+			return nombreAnimation;
+		}
+
+
+
+
+		/**
+		 * @param nombreAnimation the nombreAnimation to set
+		 */
+		public void setNombreAnimation(int nombreAnimation) {
+			this.nombreAnimation = nombreAnimation;
+		}
+
+
+
+
+		/**
+		 * @return the masse
+		 */
+		public float getMasse() {
+			return masse;
+		}
+
+		/**
+		 * @param masse the masse to set
+		 */
+		public void setMasse(float masse) {
+			this.masse = masse;
+		}
+
+		/**
+		 * @return the sensRotation
+		 */
+		public boolean isSensRotation() {
+			return sensRotation;
+		}
+
+		/**
+		 * @param sensRotation the sensRotation to set
+		 */
+		public void setSensRotation(boolean sensRotation) {
+			this.sensRotation = sensRotation;
+		}
+
+		/**
+		 * @return the danger
+		 */
+		public boolean isDanger() {
+			return danger;
+		}
+
+		/**
+		 * @param danger the danger to set
+		 */
+		public void setDanger(boolean danger) {
+			this.danger = danger;
 		}
 
 		/**
