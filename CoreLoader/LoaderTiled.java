@@ -203,6 +203,77 @@ public class LoaderTiled
 			{
 				layerImages.setSpeed(Integer.parseInt(prop.getString("speed")));
 			}
+			
+			// valeur danger
+			if(prop.containsKey("danger"))
+			{
+				String danger = prop.getString("danger");
+				if(danger != null)
+				{
+					switch(danger)
+					{
+					case "true" :layerImages.setDanger(true);break;
+					
+					case "false": layerImages.setDanger(false);break;
+					
+					default :  layerImages.setDanger(false);break;
+					
+					}
+				}
+			}
+			
+			// valeur de masse
+			if(prop.containsKey("masse"))
+			{
+				String masse = prop.getString("masse");
+				if(masse!=null)
+				{
+					float mf = Float.parseFloat(masse);
+					layerImages.setMasse(mf);
+				}
+			}
+			
+			// valeur de sens de rotation
+			if(prop.containsKey("sens_rotation"))
+			{
+				String sens = prop.getString("sens_rotation");
+				if(sens!=null)
+				{
+					switch(sens)
+					{
+					case "true" : layerImages.setSensRotation(true);break;
+					
+					case "false" : layerImages.setSensRotation(false);break;
+					
+					default : layerImages.setSensRotation(true);break;
+					}
+				}
+				
+			}
+			
+			// valeur de taille d'animation
+			if(prop.containsKey("width_animation") && prop.containsKey("height_animation"))
+			{
+				String wa = prop.getString("width_animation");
+				String ha = prop.getString("height_animation");
+				
+				int iwa = Integer.parseInt(wa);
+				int iha = Integer.parseInt(ha);
+				
+				layerImages.setWidthAnimation(iwa);
+				layerImages.setHeightAnimation(iha);
+			}
+			
+			// valeur du nombre de tiles d'animation
+			if(prop.containsKey("nombre_animation"))
+			{
+				String nombreAnimation = prop.getString("nombre_animation");
+				if(nombreAnimation!=null)
+				{
+					int ina = Integer.parseInt(nombreAnimation);
+					layerImages.setNombreAnimation(ina);
+				}
+			}
 		}
 		
 		
