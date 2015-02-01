@@ -17,7 +17,7 @@ import org.jsfml.graphics.RenderTexture;
 import org.jsfml.system.Time;
 import org.jsfml.window.event.Event;
 
-import Loader.TiledObjectPolylinePoint;
+import CoreLoader.TiledObjectPolylinePoint;
 import bilou.ICoreBase;
 import bilou.PhysicWorld;
 
