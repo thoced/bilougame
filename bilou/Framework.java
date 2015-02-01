@@ -35,6 +35,7 @@ import CoreDrawableCalqueManager.DrawableCalque;
 import CoreDrawableCalqueManager.DrawableCalqueBase;
 import CoreDrawableCalqueManager.DrawableCalqueDynamic;
 import CoreDrawableCalqueManager.DrawableCalqueManager;
+import CoreDrawableCalqueManager.DrawableCalquePhysic;
 import CoreManagerObstacle.ObstacleManager;
 import CoreQuadTree.QuadTreeNode;
 import CoreTexturesManager.TexturesManager;
@@ -459,6 +460,24 @@ public class Framework
 						// c'est un calque dynamic
 						Texture t = TexturesManager.GetTextureByName(nameText);
 						c = new DrawableCalqueDynamic(t,nameCalque,posx,posy,speed,targetX,targetY);
+					}
+					
+					// calque physique ayant des propriété physique (ouverture du fichier .phy)
+					if(calque.getTypeCalque().equals("physique"))
+					{
+						// on récupère les informations de masse
+						float masse = calque.getMasse();
+						// on récupère les informations de danger
+						boolean danger = calque.isDanger();
+						// on créer le nom de fichier .phy
+						String[] temp = nameText.split(".");
+						// on récupère la première partie et on ajoute l'extension phy
+						String namePhy = temp[0] + ".phy";
+						// on crée l'objet calque physique
+						Texture t = TexturesManager.GetTextureByName(nameText);
+						c = new DrawableCalquePhysic(t,nameCalque,posx,posy,masse,namePhy);
+						
+						
 					}
 				}
 				
