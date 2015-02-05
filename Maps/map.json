@@ -736,23 +736,6 @@
         {
          "height":64,
          "image":"..\/Textures\/shipB022.png",
-         "name":"Copie de physic",
-         "opacity":1,
-         "properties":
-            {
-             "danger":"false",
-             "masse":"0.5",
-             "type_calque":"physique"
-            },
-         "type":"imagelayer",
-         "visible":true,
-         "width":256,
-         "x":3072,
-         "y":1248
-        }, 
-        {
-         "height":64,
-         "image":"..\/Textures\/shipB022.png",
          "name":"Copie de Copie de physic",
          "opacity":1,
          "properties":
@@ -764,8 +747,8 @@
          "type":"imagelayer",
          "visible":true,
          "width":256,
-         "x":4768,
-         "y":1024
+         "x":4864,
+         "y":948
         }, 
         {
          "height":64,
@@ -786,22 +769,73 @@
         }, 
         {
          "height":64,
-         "image":"..\/Textures\/ship013.png",
-         "name":"physic collone",
+         "image":"..\/Textures\/brique.png",
+         "name":"b",
          "opacity":1,
          "properties":
             {
              "danger":"false",
-             "masse":"10",
+             "masse":"5",
              "type_calque":"physique"
             },
          "type":"imagelayer",
          "visible":true,
          "width":256,
-         "x":736,
-         "y":623
+         "x":3106,
+         "y":1418
+        }, 
+        {
+         "height":64,
+         "image":"..\/Textures\/brique.png",
+         "name":"Copie de b",
+         "opacity":1,
+         "properties":
+            {
+             "danger":"false",
+             "masse":"5",
+             "type_calque":"physique"
+            },
+         "type":"imagelayer",
+         "visible":true,
+         "width":256,
+         "x":3104,
+         "y":1302
+        }, 
+        {
+         "height":64,
+         "image":"..\/Textures\/brique.png",
+         "name":"Copie de Copie de b",
+         "opacity":1,
+         "properties":
+            {
+             "danger":"false",
+             "masse":"5",
+             "type_calque":"physique"
+            },
+         "type":"imagelayer",
+         "visible":true,
+         "width":256,
+         "x":3103,
+         "y":1186
+        }, 
+        {
+         "height":64,
+         "image":"..\/Textures\/brique.png",
+         "name":"Copie de Copie de Copie de b",
+         "opacity":1,
+         "properties":
+            {
+             "danger":"false",
+             "masse":"5",
+             "type_calque":"physique"
+            },
+         "type":"imagelayer",
+         "visible":true,
+         "width":256,
+         "x":3105,
+         "y":1069
         }],
- "nextobjectid":42,
+ "nextobjectid":51,
  "orientation":"orthogonal",
  "properties":
     {
