@@ -56,8 +56,8 @@ public class DrawableCalquePhysic extends DrawableCalqueBase
 		{
 			// pour chaque ligne on récupère les coordonnées x et y
 			String[] xy = line.split(",");
-			int x = Integer.parseInt(xy[0]);
-			int y = Integer.parseInt(xy[1]);
+			float x = Float.parseFloat(xy[0]);
+			float y = Float.parseFloat(xy[1]);
 			// pour chaque point on ajoute l'offset de l'image
 			// pour chaque point on transforme en repère mètre (box2d)
 			float bx = x / PhysicWorld.getRatioPixelMeter();
@@ -95,9 +95,9 @@ public class DrawableCalquePhysic extends DrawableCalqueBase
 		// on crée la fixture
 		FixtureDef fixture = new FixtureDef();
 		fixture.shape = ps;
-		fixture.friction = 0.5f;
+		fixture.friction = 1f;
 		fixture.restitution = 0.0f;
-		fixture.density = 0.1f;
+		fixture.density = 1f;
 		
 		
 		// on applique le tout
