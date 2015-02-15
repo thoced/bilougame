@@ -32,9 +32,7 @@ public class ObstacleManager implements ICoreBase
 		// instance de la liste des obstacles
 		listeObstacle = new ArrayList<ObstacleBase>(this.sizeofmemory);
 	}
-	
-	
-	
+
 	public static ObstacleResult IsPointCollision(int x, int y)
 	{
 		// on test si le point est en collision avec un obstacle

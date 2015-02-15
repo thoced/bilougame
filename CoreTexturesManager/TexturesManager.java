@@ -1,11 +1,14 @@
 package CoreTexturesManager;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.FileSystems;
 import java.nio.file.Path;
 import java.util.Hashtable;
+
+import javax.swing.JOptionPane;
 
 import org.jsfml.graphics.RenderStates;
 import org.jsfml.graphics.RenderTexture;
@@ -62,6 +65,10 @@ public class TexturesManager implements ICoreBase
 		{
 			Texture text = new Texture();
 			text.loadFromStream(TexturesManager.class.getResourceAsStream("/Textures/" + name));
+			//String userdir = System.getProperty("user.dir");
+			//File f = new File(userdir + "/bin/Textures/" + name);
+			//JOptionPane.showMessageDialog(null, userdir);
+			//text.loadFromFile(f.toPath());
 			hashTextures.put(name, text);
 			
 		} catch (IOException e) {

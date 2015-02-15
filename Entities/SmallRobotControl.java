@@ -42,9 +42,6 @@ public class SmallRobotControl extends RobotBase
 	private boolean isSpace = false;
 	
 	
-	
-	
-	
 	/**
 	 * @return the isground
 	 */
