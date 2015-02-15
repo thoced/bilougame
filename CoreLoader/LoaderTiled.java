@@ -44,7 +44,7 @@ public class LoaderTiled
 		// si l'input stream est null, on lance l'exception
 		if(nameFile==null)
 			throw new LoaderTiledException();
-		
+				
 		// ouverture du fichier
 				JsonReader reader = Json.createReader(nameFile);
 				if(reader==null)
