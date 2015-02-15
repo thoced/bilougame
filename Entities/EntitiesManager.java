@@ -63,11 +63,11 @@ public class EntitiesManager implements ICoreBase
 		//Load content du TextureManager
 		playerSmallRobot = new SmallRobotView();
 		playerSmallRobot.LoadContent();
-		playerSmallRobot.SetPosition(new Vector2f(10,0));
+		playerSmallRobot.SetPosition(new Vector2f(1000,-400));
 		
 		playerBigRobot = new BigRobotView();
 		playerBigRobot.LoadContent();
-		playerBigRobot.SetPosition(new Vector2f(30,0));
+		playerBigRobot.SetPosition(new Vector2f(30,-400));
 		
 		// initialisation du robot selectionné
 		playerSelected = playerSmallRobot;

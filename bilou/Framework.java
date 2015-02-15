@@ -41,6 +41,7 @@ import CoreManagerObstacle.ObstacleManager;
 import CoreQuadTree.QuadTreeNode;
 import CoreTexturesManager.TexturesManager;
 import Entities.EntitiesManager;
+import CoreLoader.LoaderMakeMap;
 import CoreLoader.LoaderMap;
 import CoreLoader.LoaderTiled;
 import CoreLoader.LoaderTiledException;
@@ -162,10 +163,10 @@ public class Framework
 		// instance du calquesmanager
 		calquesManager = new DrawableCalqueManager();
 		// Lens
-		lens = new Lens();
+		/*lens = new Lens();
 		try 
 		{
-			lens.Init(this);
+			//lens.Init(this);
 			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -173,9 +174,9 @@ public class Framework
 		} catch (ShaderSourceException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		}*/
 		
-		rob = new robot();
+		/*rob = new robot();
 		try {
 			rob.Init(this);
 		} catch (IOException e) {
@@ -185,7 +186,7 @@ public class Framework
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+		*/
 		// background
 		background = new BackgroundDrawable(window.getView().getSize());
 		
@@ -256,10 +257,7 @@ public class Framework
 		renderText.draw(background);
 		renderText.display();
 		
-		// appel a la methode draw de l'entites manager
-		renderText.setView(camera.getView());
-		entitiesManager.draw(renderText,rStateForeGround);
-		renderText.display();
+		
 		
 		// foreground affichage
 		//renderText.setView(camera.getView());
@@ -271,6 +269,11 @@ public class Framework
 		// on affiche les drawable calques
 		renderText.setView(camera.getView());
 		calquesManager.draw(renderText,rStateForeGround);
+		renderText.display();
+		
+		// appel a la methode draw de l'entites manager
+		renderText.setView(camera.getView());
+		entitiesManager.draw(renderText,rStateForeGround);
 		renderText.display();
 		
 		
@@ -382,15 +385,16 @@ public class Framework
 		entitiesManager.loadContent();
 		
 		
-		LoaderTiled tiled = new LoaderTiled();
+		//LoaderTiled tiled = new LoaderTiled();
+		LoaderMakeMap tiled = new LoaderMakeMap();
 		try 
 		{
 			// chargement de la map
-			tiled.Load(LoaderTiled.class.getResourceAsStream("/Maps/map.json"));
+			tiled.Load(LoaderTiled.class.getResourceAsStream("/Maps/mapbroyeur.json"));
 			// création d'une texture (tileset)
-			Texture text = new Texture();
+			//Texture text = new Texture();
 			// chargement de la texture
-			text.loadFromStream(LoaderTiled.class.getResourceAsStream("/Textures/tilesetblavier.png"));
+			//text.loadFromStream(LoaderTiled.class.getResourceAsStream("/Textures/tilesetblavier.png"));
 			
 			try 
 			{
@@ -416,25 +420,7 @@ public class Framework
 			// création du drawable calque manager
 			for(TiledLayerImages calque : tiled.getListLayersImages())
 			{
-				// pour chaque calque on créer un drawablecalque
-				String pathTexture = calque.getPathImage();
-				// on récupère juste le nom de la texture
-				//String[] nameTexture = pathTexture.split(File.separator);
 				
-				//JOptionPane.showConfirmDialog(null,pathTexture);
-				
-				String[] nameTexture  = null;
-				
-				String os = System.getProperty("os.name");
-				
-				
-				if(os.equals("Linux"))
-					nameTexture = pathTexture.split("/");
-				else
-					nameTexture = pathTexture.split("/");
-				
-				// on récupère la texture à partir du texturesmanager en y passant le dernier element du vecteur split
-				String nameText = nameTexture[nameTexture.length-1];
 				float posx = calque.getPosx();
 				float posy = calque.getPosy();
 				String nameCalque = calque.getName();
@@ -443,15 +429,15 @@ public class Framework
 				
 				DrawableCalqueBase c = null;
 				
-				if(calque.getTypeCalque() == null)
+				if(calque.getTypeCalque().equals("statique"))
 				{
 					// c'est un simple calque static
-					Texture t = TexturesManager.GetTextureByName(nameText);
+					Texture t = TexturesManager.GetTextureByName(nameCalque);
 					c = new DrawableCalque(t, nameCalque, posx, posy);
 				}
 				else
 				{
-					if(calque.getTypeCalque().equals("dynamic"))
+					if(calque.getTypeCalque().equals("dynamique"))
 					{
 						
 						// on récupère les information dynamic
@@ -459,7 +445,7 @@ public class Framework
 						float targetX = calque.getTargetX();
 						float targetY = calque.getTargetY();
 						// c'est un calque dynamic
-						Texture t = TexturesManager.GetTextureByName(nameText);
+						Texture t = TexturesManager.GetTextureByName(nameCalque);
 						c = new DrawableCalqueDynamic(t,nameCalque,posx,posy,speed,targetX,targetY);
 					}
 					
@@ -471,11 +457,11 @@ public class Framework
 						// on récupère les informations de danger
 						boolean danger = calque.isDanger();
 						// on créer le nom de fichier .phy
-						String[] temp = nameText.split("\\.");
+						String[] temp = nameCalque.split("\\.");
 						// on récupère la première partie et on ajoute l'extension phy
 						String namePhy = temp[0] + ".phy";
 						// on crée l'objet calque physique
-						Texture t = TexturesManager.GetTextureByName(nameText);
+						Texture t = TexturesManager.GetTextureByName(nameCalque);
 						c = new DrawableCalquePhysic(t,nameCalque,posx,posy,masse,namePhy);
 						
 						
@@ -485,6 +471,8 @@ public class Framework
 				
 				calquesManager.InsertCalque(c);
 			}
+			
+			
 			
 			// reception des obstacle via les objet7
 			TiledLayerObjects layerObject = tiled.getListLayersObjects().get(0);
@@ -514,8 +502,10 @@ public class Framework
 						
 					}
 				}
-			}
+				
+				
 			
+			}
 		} catch (LoaderTiledException e) 
 		{
 			// TODO Auto-generated catch block

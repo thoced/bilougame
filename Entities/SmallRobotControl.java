@@ -55,7 +55,7 @@ public class SmallRobotControl extends RobotBase
 		// creatin du body jbox2d
 		bodyDef = new BodyDef();
 	//	bodyDef.position.set(new Vec2(0f,0.9f));
-		bodyDef.position = new Vec2(1,10);
+		bodyDef.position = new Vec2(-15,-15);
 		bodyDef.type = BodyType.DYNAMIC;
 		
 		
