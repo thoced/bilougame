@@ -12,9 +12,9 @@ import bilou.ICoreBase;
 public class EntitiesManager implements ICoreBase
 {
 	// small robot
-	private SmallRobotView playerSmallRobot;
+	private static SmallRobotView playerSmallRobot;
 	// big robot
-	private BigRobotView playerBigRobot;
+	private static BigRobotView playerBigRobot;
 	
 	// reférence vers le robot selectioné
 	private EntitieBase playerSelected;
@@ -25,6 +25,62 @@ public class EntitiesManager implements ICoreBase
 		
 	}
 	
+	
+	
+	/**
+	 * @return the playerBigRobot
+	 */
+	public static BigRobotView getPlayerBigRobot() {
+		return playerBigRobot;
+	}
+
+
+
+	/**
+	 * @param playerBigRobot the playerBigRobot to set
+	 */
+	public static void setPlayerBigRobot(BigRobotView playerBigRobot) {
+		EntitiesManager.playerBigRobot = playerBigRobot;
+	}
+
+
+
+	/**
+	 * @return the playerSmallRobot
+	 */
+	public static SmallRobotView getPlayerSmallRobot() {
+		return playerSmallRobot;
+	}
+
+
+
+	/**
+	 * @param playerSmallRobot the playerSmallRobot to set
+	 */
+	public static void setPlayerSmallRobot(SmallRobotView playerSmallRobot) {
+		EntitiesManager.playerSmallRobot = playerSmallRobot;
+	}
+
+
+
+	/**
+	 * @return the playerSelected
+	 */
+	public EntitieBase getPlayerSelected() {
+		return playerSelected;
+	}
+
+
+
+	/**
+	 * @param playerSelected the playerSelected to set
+	 */
+	public void setPlayerSelected(EntitieBase playerSelected) {
+		this.playerSelected = playerSelected;
+	}
+
+
+
 	public void SwitchPlayer()
 	{
 		// inverse la selection
@@ -40,12 +96,11 @@ public class EntitiesManager implements ICoreBase
 			playerBigRobot.pControl.setSelected(false);
 			
 		}
-		
-		
-		
+
 		
 	}
 	
+
 	@Override
 	public void update(Time deltaTime)
 	{

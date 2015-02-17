@@ -9,12 +9,13 @@ import java.util.List;
 import javax.json.*;
 import javax.json.JsonValue.ValueType;
 
-
 import org.jsfml.graphics.Texture;
 import org.jsfml.system.Vector2f;
 
-
+import CorePlayer.PlayerManager;
+import CorePlayer.SmallRobot;
 import CoreTexturesManager.TexturesManager;
+import Entities.EntitiesManager;
 import bilou.DrawableMap;
 
 public class LoaderMakeMap 
@@ -72,14 +73,17 @@ public class LoaderMakeMap
 				// chargement des calques
 				if(obj.containsKey("calques"))
 				{
-					
 					this.parseImage(obj);
-					
 				}
 				
 				if(obj.containsKey("obstacles"))
 				{
 					this.parseObstacles(obj);
+				}
+				
+				if(obj.containsKey("entities"))
+				{
+					this.parseEntities(obj);
 				}
 				
 				// ---------------- obtention du tableau tileset -------------
@@ -177,6 +181,37 @@ public class LoaderMakeMap
 				*/
 				// fermeture du reader
 				reader.close();
+	}
+	
+	private void parseEntities(JsonObject obj)
+	{
+		// on récupère le tableau des entities
+		JsonArray arrayEntities = obj.getJsonArray("entities");
+		
+		for(int i=0;i<arrayEntities.size();i++)
+		{
+			// on récupère l'entité current
+			JsonObject ent = arrayEntities.getJsonObject(i);
+			// on vérifie le type d'entitié
+			if(ent.containsKey("type_entities"))
+			{
+				switch(ent.getString("type_entities"))
+				{
+					case "PLAYERSTART":
+					{
+						// réception des positions
+						if(ent.containsKey("x") && ent.containsKey("y") && ent.containsKey("type"))
+						{
+							float x = (float) ent.getJsonNumber("x").doubleValue();
+							float y = (float) ent.getJsonNumber("y").doubleValue();
+							SmallRobot robot = new SmallRobot(new Vector2f(x,y));
+							PlayerManager.createSmallRobot(robot);
+							break;
+						}
+					}
+				}
+			}
+		}
 	}
 	
 	private void parseImage(JsonObject obj)

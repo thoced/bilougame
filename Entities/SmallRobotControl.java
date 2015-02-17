@@ -52,8 +52,9 @@ public class SmallRobotControl extends RobotBase
 		// creatin du body jbox2d
 		bodyDef = new BodyDef();
 	//	bodyDef.position.set(new Vec2(0f,0.9f));
-		bodyDef.position = new Vec2(-15,-15);
+		bodyDef.position = new Vec2(1,-15);
 		bodyDef.type = BodyType.DYNAMIC;
+		//bodyDef.gravityScale = 0f;
 		
 		
 		
@@ -70,9 +71,7 @@ public class SmallRobotControl extends RobotBase
 		md.center.set(0f,5f);
 		body.setMassData(md);
 		body.applyAngularImpulse(180f);*/
-		
-		
-	
+
 		//
 		fixture = new FixtureDef();
 		PolygonShape poly = new PolygonShape();

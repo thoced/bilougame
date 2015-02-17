@@ -6,8 +6,8 @@ import org.jbox2d.collision.Manifold;
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.contacts.Contact;
 
-import Entities.RobotBase;
-import Entities.SmallRobotControl;
+import CorePlayer.RobotBase;
+
 
 public class MyContactListener implements ContactListener {
 
@@ -15,22 +15,6 @@ public class MyContactListener implements ContactListener {
 	public void beginContact(Contact contact) 
 	{
 		// TODO Auto-generated method stub
-		
-	
-		
-			
-			/*if(tempA != null && tempA.getClass() == SmallRobotControl.class)
-			{
-				if(tempB != null && (tempB.equals("ground")  || tempB.getClass() == SmallRobotControl.class))
-					((RobotBase)tempA).setIsground(true);
-			}
-			
-			if(tempB != null && tempB.getClass() == SmallRobotControl.class)
-			{
-				if(tempA != null && (tempA.equals("ground") || tempA.getClass() == SmallRobotControl.class))
-					((RobotBase)tempB).setIsground(true);
-			}*/
-			
 			
 			do
 			{
@@ -60,9 +44,6 @@ public class MyContactListener implements ContactListener {
 	{
 		// TODO Auto-generated method stub
 		
-		
-			
-	
 		
 	}
 

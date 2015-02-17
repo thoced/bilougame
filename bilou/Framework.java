@@ -38,6 +38,8 @@ import CoreDrawableCalqueManager.DrawableCalqueDynamic;
 import CoreDrawableCalqueManager.DrawableCalqueManager;
 import CoreDrawableCalqueManager.DrawableCalquePhysic;
 import CoreManagerObstacle.ObstacleManager;
+import CorePlayer.PlayerManager;
+import CorePlayer.SmallRobot;
 import CoreQuadTree.QuadTreeNode;
 import CoreTexturesManager.TexturesManager;
 import Entities.EntitiesManager;
@@ -90,6 +92,8 @@ public class Framework
 	private TexturesManager texturesManager;
 	// Entities manager
 	private EntitiesManager entitiesManager;
+	//PlayerManager
+	private PlayerManager playerManager;
 	// Calques Manager
 	private DrawableCalqueManager calquesManager;
 	// PhysicWorld
@@ -159,9 +163,14 @@ public class Framework
 		// instance de Textures Manager
 		texturesManager = new TexturesManager();
 		// instance du manager d'entitées
-		entitiesManager = new EntitiesManager();
+		//entitiesManager = new EntitiesManager();
 		// instance du calquesmanager
 		calquesManager = new DrawableCalqueManager();
+		// player manager
+		playerManager = new PlayerManager();
+		
+		
+		
 		// Lens
 		/*lens = new Lens();
 		try 
@@ -224,7 +233,8 @@ public class Framework
 		calquesManager.update(deltaTime);
 		
 		// update du entities manager
-		entitiesManager.update(deltaTime);
+		//entitiesManager.update(deltaTime);
+		playerManager.update(deltaTime);
 		
 		// suppression des élements
 		arrayElements.removeAll(arrayDelete);
@@ -273,14 +283,9 @@ public class Framework
 		
 		// appel a la methode draw de l'entites manager
 		renderText.setView(camera.getView());
-		entitiesManager.draw(renderText,rStateForeGround);
+		//entitiesManager.draw(renderText,rStateForeGround);
+		playerManager.draw(renderText, rStateForeGround);
 		renderText.display();
-		
-		
-		// charlie
-		/*renderText.setView(camera.getView());
-		renderText.draw(charlieSprite);
-		renderText.display();*/
 		
 		
 		// affichage dans la fenetre principale (écran)
@@ -331,7 +336,7 @@ public class Framework
 		}
 		
 		// catch pour l'entities manager
-				entitiesManager.catchEvent(event);
+				//entitiesManager.catchEvent(event);
 	}
 	
 	public void DestroyGameBase(IGameBase base)
@@ -382,7 +387,9 @@ public class Framework
 		// textures manager loadcontent
 		texturesManager.loadContent();
 		// entities manager loadcontent
-		entitiesManager.loadContent();
+		//entitiesManager.loadContent();
+		// Création des robot
+		
 		
 		
 		//LoaderTiled tiled = new LoaderTiled();
@@ -390,7 +397,7 @@ public class Framework
 		try 
 		{
 			// chargement de la map
-			tiled.Load(LoaderTiled.class.getResourceAsStream("/Maps/mapbroyeur.json"));
+			tiled.Load(LoaderTiled.class.getResourceAsStream("/Maps/mapbroyeur2.json"));
 			// création d'une texture (tileset)
 			//Texture text = new Texture();
 			// chargement de la texture
