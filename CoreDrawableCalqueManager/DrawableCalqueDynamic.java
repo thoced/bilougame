@@ -7,6 +7,8 @@ import org.jbox2d.dynamics.BodyDef;
 import org.jbox2d.dynamics.BodyType;
 import org.jbox2d.dynamics.FixtureDef;
 import org.jsfml.graphics.FloatRect;
+import org.jsfml.graphics.RenderStates;
+import org.jsfml.graphics.RenderTarget;
 import org.jsfml.graphics.RenderTexture;
 import org.jsfml.graphics.Texture;
 import org.jsfml.system.Time;
@@ -88,16 +90,7 @@ public class DrawableCalqueDynamic extends DrawableCalqueBase
 		
 	}
 
-	@Override
-	public void Draw(RenderTexture render)
-	{
-		// TODO Auto-generated method stub
-		// affichage du calque
 	
-			FloatRect result = Camera.GetBoundsVisible().intersection(this.imageCalque.getGlobalBounds());
-			if(result!=null)
-				render.draw(imageCalque);
-	}
 
 	@Override
 	public void Update(Time deltaTime) 
@@ -129,6 +122,17 @@ public class DrawableCalqueDynamic extends DrawableCalqueBase
 		imageCalque.setPosition(newPos);
 		
 		
+	}
+
+	@Override
+	public void draw(RenderTarget render, RenderStates state) 
+	{
+		// TODO Auto-generated method stub
+				// affichage du calque
+			
+		FloatRect result = Camera.GetBoundsVisible().intersection(this.imageCalque.getGlobalBounds());
+			if(result!=null)
+			render.draw(imageCalque);
 	}
 
 }

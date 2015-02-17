@@ -1,6 +1,8 @@
 package Entities;
 
+import org.jsfml.graphics.Drawable;
 import org.jsfml.graphics.RenderStates;
+import org.jsfml.graphics.RenderTarget;
 import org.jsfml.graphics.RenderTexture;
 import org.jsfml.system.Time;
 import org.jsfml.system.Vector2f;
@@ -9,7 +11,7 @@ import org.jsfml.window.event.Event;
 import bilou.Camera;
 import bilou.ICoreBase;
 
-public class EntitiesManager implements ICoreBase
+public class EntitiesManager implements ICoreBase,Drawable
 {
 	// small robot
 	private static SmallRobotView playerSmallRobot;
@@ -153,10 +155,11 @@ public class EntitiesManager implements ICoreBase
 		this.playerSelected.SetEvent(e);
 		
 	}
+
+
 	@Override
-	public void draw(RenderTexture render, RenderStates state) 
+	public void draw(RenderTarget render, RenderStates state) 
 	{
-		
 		render.draw(playerSmallRobot.getSpritePlayer());
 		
 		render.draw(playerBigRobot.getSpritePlayer());

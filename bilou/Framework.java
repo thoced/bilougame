@@ -169,33 +169,6 @@ public class Framework
 		// player manager
 		playerManager = new PlayerManager();
 		
-		
-		
-		// Lens
-		/*lens = new Lens();
-		try 
-		{
-			//lens.Init(this);
-			
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (ShaderSourceException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}*/
-		
-		/*rob = new robot();
-		try {
-			rob.Init(this);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (ShaderSourceException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		*/
 		// background
 		background = new BackgroundDrawable(window.getView().getSize());
 		
@@ -218,16 +191,6 @@ public class Framework
 		
 		// update camera
 		camera.update(deltaTime);
-		
-		
-		/*for(IGameBase unit : arrayElements)
-		{
-			unit.Update(deltaTime);
-		}
-		
-		lens.Update(deltaTime);
-		*/
-		
 		
 		// update du calquemanager
 		calquesManager.update(deltaTime);
@@ -256,25 +219,12 @@ public class Framework
 
 		// on efface le backbuffer
 		renderText.clear(Color.TRANSPARENT);
-	
-		// background affichage
-		/*renderText.setView(camera.getView());
-	 	dm.draw(renderText,rStateBackground);
-		renderText.display();
-		*/
+
 	
 		renderText.setView(window.getDefaultView());
 		renderText.draw(background);
 		renderText.display();
-		
-		
-		
-		// foreground affichage
-		//renderText.setView(camera.getView());
-		//dm2.draw(renderText,rStateForeGround);
-		//renderText.display();
-		
-	//	RenderStates rs = new RenderStates(this.camera.getView().getTransform());
+
 		
 		// on affiche les drawable calques
 		renderText.setView(camera.getView());
@@ -354,26 +304,7 @@ public class Framework
 		
 		Random rand = new Random();
 		
-		/*for(int i=0;i<16;i++)
-		{
-			
-			//ElementBase element4 = new ElementBase(new Vector2f(16,16),new Vector2f(rand.nextInt(4096),rand.nextInt(4096)));
-			ElementBase element4 = new ElementBase(new Vector2f(8,8),new Vector2f(128 + i * 32,128 + i * 64));
-			this.quadtree.InsertElement(element4);
-		}*/
-		//ElementBase element4 = new ElementBase(new Vector2f(16,256),new Vector2f(128,128));
-		//this.quadtree.InsertElement(element4);
 		
-		
-		//this.quadtree.InsertElement(element);
-		//this.quadtree.InsertElement(element2);
-		//this.quadtree.InsertElement(element3);
-		
-		//arrayElements.add(element);
-		//arrayElements.add(element2);
-		/*log = new Logo();
-		log.Init(this);
-		arrayElements.add(log);*/
 		
 		// chargement de la map
 		loader.LoadContent();
@@ -416,15 +347,12 @@ public class Framework
 			}
 			
 			
-			// réception du layers background
-			//TiledLayerTiles o = tiled.getListLayersTiles().get(0);
-			//dm.LoadMap(o.getDataMap(), text, tiled.getMapWidth(), tiled.getMapHeight(), tiled.getTileWidth(), tiled.getTileHeight(), tiled.getMargin(), tiled.getParcing(),tiled.getFirstgid());
-			
-			// réception du layers foreground
-			//TiledLayerTiles o2 = tiled.getListLayersTiles().get(1);
-			//dm2.LoadMap(o2.getDataMap(), text, tiled.getMapWidth(), tiled.getMapHeight(), tiled.getTileWidth(), tiled.getTileHeight(), tiled.getMargin(), tiled.getParcing(),tiled.getFirstgid());
-			
 			// création du drawable calque manager
+			// -----------------------------------
+			// -----------------------------------
+			// -----------------------------------
+			
+			
 			for(TiledLayerImages calque : tiled.getListLayersImages())
 			{
 				

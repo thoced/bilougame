@@ -214,11 +214,7 @@ public class ObstacleManager implements ICoreBase
 		
 	}
 
-	@Override
-	public void draw(RenderTexture render, RenderStates state) {
-		// TODO Auto-generated method stub
-		
-	}
+	
 	
 	
 

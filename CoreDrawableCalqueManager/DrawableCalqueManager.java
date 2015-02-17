@@ -3,7 +3,9 @@ package CoreDrawableCalqueManager;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.jsfml.graphics.Drawable;
 import org.jsfml.graphics.RenderStates;
+import org.jsfml.graphics.RenderTarget;
 import org.jsfml.graphics.RenderTexture;
 import org.jsfml.graphics.Texture;
 import org.jsfml.system.Time;
@@ -13,7 +15,7 @@ import CoreTexturesManager.TexturesManager;
 import bilou.Camera;
 import bilou.ICoreBase;
 
-public class DrawableCalqueManager implements ICoreBase
+public class DrawableCalqueManager implements ICoreBase,Drawable
 {
 	// liste de Layers
 	private List<DrawableCalqueBase> listCalques;
@@ -35,18 +37,6 @@ public class DrawableCalqueManager implements ICoreBase
 		}
 	}
 
-	@Override
-	public void draw(RenderTexture render, RenderStates state) 
-	{
-		// TODO Auto-generated method stub
-		
-		for(DrawableCalqueBase calque : this.listCalques)
-		{
-			// affichage des calques
-			calque.Draw(render);
-		}
-		
-	}
 	
 	public void InsertCalque(DrawableCalqueBase calque)
 	{
@@ -95,6 +85,18 @@ public class DrawableCalqueManager implements ICoreBase
 	@Override
 	public void catchEvent(Event e) {
 		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void draw(RenderTarget render, RenderStates state) {
+		// TODO Auto-generated method stub
+		
+				for(DrawableCalqueBase calque : this.listCalques)
+				{
+					// affichage des calques
+					calque.draw(render, state);
+				}
 		
 	}
 	

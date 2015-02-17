@@ -19,6 +19,8 @@ import org.jbox2d.dynamics.BodyType;
 import org.jbox2d.dynamics.Fixture;
 import org.jbox2d.dynamics.FixtureDef;
 import org.jsfml.graphics.FloatRect;
+import org.jsfml.graphics.RenderStates;
+import org.jsfml.graphics.RenderTarget;
 import org.jsfml.graphics.RenderTexture;
 import org.jsfml.graphics.Texture;
 import org.jsfml.system.Time;
@@ -106,18 +108,10 @@ public class DrawableCalquePhysic extends DrawableCalqueBase
 		
 		// modification de l'origine de la texture
 		this.imageCalque.setOrigin(new Vector2f(this.imageCalque.getTexture().getSize().x /2,this.imageCalque.getTexture().getSize().y /2));
-		
-		
-		
+
 	}
 
-	@Override
-	public void Draw(RenderTexture render) {
-		// TODO Auto-generated method stub
-		FloatRect result = Camera.GetBoundsVisible().intersection(this.imageCalque.getGlobalBounds());
-		if(result!=null)
-			render.draw(imageCalque);
-	}
+	
 
 	@Override
 	public void Update(Time deltaTime) 
@@ -127,6 +121,15 @@ public class DrawableCalquePhysic extends DrawableCalqueBase
 		this.imageCalque.setPosition(v);
 		this.imageCalque.setRotation((float)((this.body.getAngle() * 180) / Math.PI) % 360);
 		
+		
+	}
+
+	@Override
+	public void draw(RenderTarget render, RenderStates state) {
+		// TODO Auto-generated method stub
+				FloatRect result = Camera.GetBoundsVisible().intersection(this.imageCalque.getGlobalBounds());
+				if(result!=null)
+					render.draw(imageCalque);
 		
 	}
 

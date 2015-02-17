@@ -1,5 +1,6 @@
 package CoreDrawableCalqueManager;
 
+import org.jsfml.graphics.Drawable;
 import org.jsfml.graphics.RenderTexture;
 import org.jsfml.graphics.Sprite;
 import org.jsfml.graphics.Texture;
@@ -8,7 +9,7 @@ import org.jsfml.system.Vector2f;
 
 // class de base pour les drawable calque, permet ainsi d'afficher différent calque, dynamique, static
 
-public abstract class DrawableCalqueBase 
+public abstract class DrawableCalqueBase implements Drawable
 {
 	// sprite du layer à afficher
 		protected Sprite imageCalque;
@@ -25,8 +26,7 @@ public abstract class DrawableCalqueBase
 			this.name = name;
 		}
 		
-		// methode abstract d'affichage
-		public abstract void Draw(RenderTexture render);
+	
 		//methode abstract du update
 		public abstract void Update(Time deltaTime);
 }

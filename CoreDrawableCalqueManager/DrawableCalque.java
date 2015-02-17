@@ -1,6 +1,8 @@
 package CoreDrawableCalqueManager;
 
 import org.jsfml.graphics.FloatRect;
+import org.jsfml.graphics.RenderStates;
+import org.jsfml.graphics.RenderTarget;
 import org.jsfml.graphics.RenderTexture;
 import org.jsfml.graphics.Sprite;
 import org.jsfml.graphics.Texture;
@@ -19,18 +21,19 @@ public class DrawableCalque extends DrawableCalqueBase
 		super(text,name,posx,posy);
 	}
 	
-	public void Draw(RenderTexture render)
-	{
-		// affichage du calque
-		FloatRect result = Camera.GetBoundsVisible().intersection(this.imageCalque.getGlobalBounds());
-		if(result!=null)
-			render.draw(imageCalque);
-		
-	}
 
 	@Override
 	public void Update(Time deltaTime) {
 		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void draw(RenderTarget render, RenderStates state) {
+		// affichage du calque
+				FloatRect result = Camera.GetBoundsVisible().intersection(this.imageCalque.getGlobalBounds());
+				if(result!=null)
+					render.draw(imageCalque);
 		
 	}
 	

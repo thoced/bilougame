@@ -43,7 +43,10 @@ public class PlayerManager implements Drawable,ICoreBase
 	@Override
 	public void draw(RenderTarget render, RenderStates state) 
 	{
-		
+		// TODO Auto-generated method stub
+		if(this.smallRobot != null)
+		render.draw(this.smallRobot,state);
+		//render.draw(this.bigRobot,state);
 		
 	}
 
@@ -52,6 +55,7 @@ public class PlayerManager implements Drawable,ICoreBase
 	@Override
 	public void loadContent()
 	{
+	
 		// TODO Auto-generated method stub
 		
 	}
@@ -80,14 +84,6 @@ public class PlayerManager implements Drawable,ICoreBase
 		
 	}
 
-	@Override
-	public void draw(RenderTexture render, RenderStates state) {
-		// TODO Auto-generated method stub
-				if(this.smallRobot != null)
-				render.draw(this.smallRobot,state);
-				//render.draw(this.bigRobot,state);
-		
-	}
 	
 	
 

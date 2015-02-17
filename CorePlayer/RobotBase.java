@@ -360,11 +360,7 @@ public class RobotBase implements Drawable, ICoreBase
 		
 	}
 
-	@Override
-	public void draw(RenderTexture render, RenderStates state) {
-		// TODO Auto-generated method stub
-		
-	}
+	
 
 	@Override
 	public void loadContent() {

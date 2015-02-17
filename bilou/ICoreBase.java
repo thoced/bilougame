@@ -10,7 +10,7 @@ public interface ICoreBase
 {
 	public abstract void update(Time deltaTime);
 	
-	public abstract void draw(RenderTexture render,RenderStates state);
+	//public abstract void draw(RenderTexture render,RenderStates state);
 	
 	public abstract void loadContent();
 	
