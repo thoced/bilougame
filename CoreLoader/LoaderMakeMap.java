@@ -236,6 +236,8 @@ public class LoaderMakeMap
 			boolean danger = false;
 			boolean lightmap = false;
 			int alpha = 255;
+			boolean rotation = false;
+			String sens_rotation = null;
 			
 			// virtual name
 			if(calque.containsKey("virtual_name"))
@@ -276,6 +278,12 @@ public class LoaderMakeMap
 			// alpha
 			if(calque.containsKey("alpha"))
 				alpha = calque.getInt("alpha");
+			// rotation
+			if(calque.containsKey("rotation"))
+				rotation = calque.getBoolean("rotation");
+			// sens_rotation
+			if(calque.containsKey("sens_rotation"))
+				sens_rotation = calque.getString("sens_rotation");
 				
 			
 
@@ -290,6 +298,12 @@ public class LoaderMakeMap
 			layerImages.setTargetY(targetY);
 			layerImages.setPosx(x);
 			layerImages.setPosy(y);
+			layerImages.setDanger(danger);
+			layerImages.setLightmap(lightmap);
+			layerImages.setAlpha(alpha);
+			layerImages.setRotation(rotation);
+			layerImages.setSensRotation(sens_rotation == "positif" ? true : false);
+	
 		
 			// ajout du tiledlayerimage dans la liste
 			this.listLayersImages.add(layerImages);

@@ -37,8 +37,76 @@ public class TiledLayerImages
 		private int widthAnimation,heightAnimation;
 	// nombre de tiles pour l'animation
 		private int nombreAnimation;
+	// ligthmap
+		private boolean  lightmap;
+	// alpha
+		private float alpha;
+	// rotation
+		private boolean rotation;
+	
 
 		
+	
+		
+		/**
+		 * @return the lightmap
+		 */
+		public boolean isLightmap() {
+			return lightmap;
+		}
+
+
+
+
+		/**
+		 * @param lightmap the lightmap to set
+		 */
+		public void setLightmap(boolean lightmap) {
+			this.lightmap = lightmap;
+		}
+
+
+
+
+		/**
+		 * @return the alpha
+		 */
+		public float getAlpha() {
+			return alpha;
+		}
+
+
+
+
+		/**
+		 * @param alpha the alpha to set
+		 */
+		public void setAlpha(float alpha) {
+			this.alpha = alpha;
+		}
+
+
+
+
+		/**
+		 * @return the rotation
+		 */
+		public boolean isRotation() {
+			return rotation;
+		}
+
+
+
+
+		/**
+		 * @param rotation the rotation to set
+		 */
+		public void setRotation(boolean rotation) {
+			this.rotation = rotation;
+		}
+
+
+
 		public float getPosx() {
 			return posx;
 		}
