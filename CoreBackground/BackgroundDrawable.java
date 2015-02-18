@@ -5,9 +5,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.jsfml.graphics.BlendMode;
+import org.jsfml.graphics.Color;
 import org.jsfml.graphics.Drawable;
 import org.jsfml.graphics.IntRect;
 import org.jsfml.graphics.PrimitiveType;
+import org.jsfml.graphics.RectangleShape;
 import org.jsfml.graphics.RenderStates;
 import org.jsfml.graphics.RenderTarget;
 import org.jsfml.graphics.RenderTexture;
@@ -48,8 +50,8 @@ public class BackgroundDrawable implements Drawable,ICoreBase
 	public void draw(RenderTarget render, RenderStates state) 
 	{		
 		
-		for(Sprite sp : this.listSprite)
-			render.draw(sp);
+		//for(Sprite sp : this.listSprite)
+		//	render.draw(sp);
 		
 	}
 	
@@ -83,6 +85,12 @@ public class BackgroundDrawable implements Drawable,ICoreBase
 		this.listSprite.add(sp);
 		this.listSprite.add(sp2);
 		this.listSprite.add(sp3);
+		
+		VertexArray array;
+		array = new VertexArray(PrimitiveType.QUADS);
+		
+		RectangleShape rectangle = new RectangleShape();
+		rectangle.setFillColor(Color.BLACK);
 			
 			
 	}

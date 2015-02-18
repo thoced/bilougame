@@ -377,9 +377,12 @@ public class Framework
 						float speed = calque.getSpeed();
 						float targetX = calque.getTargetX();
 						float targetY = calque.getTargetY();
+						// on récupère les valeurs de rotation et sens_rotation
+						boolean rotation = calque.isRotation();
+						boolean sens_rotation = calque.isSensRotation();
 						// c'est un calque dynamic
 						Texture t = TexturesManager.GetTextureByName(nameCalque);
-						c = new DrawableCalqueDynamic(t,nameCalque,posx,posy,speed,targetX,targetY);
+						c = new DrawableCalqueDynamic(t,nameCalque,posx,posy,speed,targetX,targetY,rotation,sens_rotation);
 					}
 					
 					// calque physique ayant des propriété physique (ouverture du fichier .phy)
