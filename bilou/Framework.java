@@ -98,10 +98,7 @@ public class Framework
 	private DrawableCalqueManager calquesManager;
 	// PhysicWorld
 	private PhysicWorld physic;
-	// Lens
-	private Lens lens;
-	
-	private robot rob;
+
 	
 	private DrawableMap dm,dm2;
 	
@@ -328,7 +325,7 @@ public class Framework
 		try 
 		{
 			// chargement de la map
-			tiled.Load(LoaderTiled.class.getResourceAsStream("/Maps/mapbroyeur2.json"));
+			tiled.Load(LoaderTiled.class.getResourceAsStream("/Maps/mapascenseur.json"));
 			// création d'une texture (tileset)
 			//Texture text = new Texture();
 			// chargement de la texture
@@ -403,7 +400,7 @@ public class Framework
 					}
 				}
 				
-				
+				// on insert dans le calquesManager
 				calquesManager.InsertCalque(c);
 			}
 			

@@ -51,10 +51,11 @@ public class SmallRobot extends RobotBase
 				bodyDef.type = BodyType.DYNAMIC;
 				//bodyDef.gravityScale = 0f;
 				
-				
+			
 				
 				body = PhysicWorld.getWorldPhysic().createBody(bodyDef);
 				body.setUserData(this);
+				body.setFixedRotation(true);
 				
 
 				// initialisation du body
@@ -75,7 +76,7 @@ public class SmallRobot extends RobotBase
 				
 				fixture.shape = poly;
 				fixture.density = 1.0f;
-				fixture.friction = 0.5f;
+				fixture.friction = 1f;
 				fixture.restitution = 0.0f;
 				ff = body.createFixture(fixture);
 					
@@ -94,6 +95,8 @@ public class SmallRobot extends RobotBase
 		// si le robot est selectionné
 				if(this.isSelected)
 				{
+					
+					this.typeSens = SENS.PAUSE;
 			
 					if(  Keyboard.isKeyPressed(Keyboard.Key.D))
 					{
@@ -104,6 +107,7 @@ public class SmallRobot extends RobotBase
 						// sens selectionné
 						this.typeSens = SENS.DROITE;
 						
+						
 					
 						
 					}else if( Keyboard.isKeyPressed(Keyboard.Key.Q))
@@ -113,6 +117,7 @@ public class SmallRobot extends RobotBase
 						
 						// sens selectionné
 						this.typeSens = SENS.GAUCHE;
+					
 									
 					
 					}
@@ -135,6 +140,31 @@ public class SmallRobot extends RobotBase
 	
 				
 		// VIEW ET ANIMATION
+				if(this.typeSens == RobotBase.SENS.DROITE)
+				{
+					if(timeAnim.asSeconds() > 1f/24f)
+					{
+						indAnim++;
+						timeAnim = Time.ZERO;
+						if(indAnim > 17)
+						{
+							indAnim = 0;
+						}
+					}
+				}
+				else if(this.typeSens == RobotBase.SENS.GAUCHE)
+				{
+					if(timeAnim.asSeconds() > 1f/24f)
+					{
+						indAnim++;
+						timeAnim = Time.ZERO;
+						if(indAnim > 35)
+						{
+							indAnim = 18;
+						}
+					}
+				}
+				
 
 		// update de l'animation
 		spritePlayer.setTextureRect(vectorAnim[indAnim]);
@@ -161,7 +191,7 @@ public class SmallRobot extends RobotBase
 		Vector2i size = TexturesManager.GetTextureByName("playerSmallRobot").getSize();
 		
 		// initialisation du vecteur d'animation
-		vectorAnim = new IntRect[24]; // 12 étant le nombre d'animation pour le player
+		vectorAnim = new IntRect[36]; // 12 étant le nombre d'animation pour le player
 		// on crée les floatrect
 		int x = 0;
 		int y = 0;
@@ -180,6 +210,9 @@ public class SmallRobot extends RobotBase
 			}
 			
 		}
+		
+		// on spécifie l'indice maximal de l'animation
+		indMaxAnim = vectorAnim.length;
 	}
 	
 	

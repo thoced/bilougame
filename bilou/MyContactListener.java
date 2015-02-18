@@ -25,6 +25,7 @@ public class MyContactListener implements ContactListener {
 				if(tempA != null && tempA.getClass().getSuperclass() == RobotBase.class)
 				{
 					((RobotBase)tempA).setIsground(true);
+					
 				}
 				
 	

@@ -160,7 +160,7 @@ public class ObstacleManager implements ICoreBase
 		polygon.setAsBox(halfW, halfH);
 		// attach a la fixture
 		fixture.shape = polygon;
-		fixture.friction = 1.0f;
+		fixture.friction = 10.0f;
 		fixture.density = 1f;
 		fixture.restitution = 0.0f;
 

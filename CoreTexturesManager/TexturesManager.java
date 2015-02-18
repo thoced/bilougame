@@ -103,7 +103,7 @@ public class TexturesManager implements ICoreBase
 			if(!hashTextures.containsKey("playerSmallRobot")) // si celle-ci n'existe pas
 			{
 				Texture text01 = new Texture();
-				text01.loadFromStream(TexturesManager.class.getResourceAsStream("/Textures/robotpattesBALL.png"));
+				text01.loadFromStream(TexturesManager.class.getResourceAsStream("/Textures/animrobot.png"));
 				// ajout dans le hash textures
 				hashTextures.put("playerSmallRobot", text01);
 			}

@@ -98,7 +98,7 @@ public class DrawableCalquePhysic extends DrawableCalqueBase
 		// on crée la fixture
 		FixtureDef fixture = new FixtureDef();
 		fixture.shape = ps;
-		fixture.friction = 0.2f;
+		fixture.friction = 0.9f;
 		fixture.restitution = 0.0f;
 		fixture.density = 0.2f;
 		
