@@ -33,6 +33,7 @@ import org.jsfml.window.event.Event;
 import CoreBackground.BackgroundDrawable;
 import CoreBackground.BackgroundDrawable.TypeBackground;
 import CoreDrawableCalqueManager.DrawableCalque;
+import CoreDrawableCalqueManager.DrawableCalqueBackground;
 import CoreDrawableCalqueManager.DrawableCalqueBase;
 import CoreDrawableCalqueManager.DrawableCalqueDynamic;
 import CoreDrawableCalqueManager.DrawableCalqueManager;
@@ -215,7 +216,7 @@ public class Framework
 		FloatRect zone = Camera.GetBoundsVisible();
 
 		// on efface le backbuffer
-		renderText.clear(Color.TRANSPARENT);
+		renderText.clear(Color.BLACK);
 
 	
 		renderText.setView(window.getDefaultView());
@@ -397,6 +398,15 @@ public class Framework
 						c = new DrawableCalquePhysic(t,nameCalque,posx,posy,masse,namePhy);
 						
 						
+					}
+					
+					if(calque.getTypeCalque().equals("background"))
+					{
+						// récupération de la vitesse
+						float speed = calque.getSpeed();
+						// on crée la texture
+						Texture t = TexturesManager.GetTextureByName(nameCalque);
+						c = new DrawableCalqueBackground(t,nameCalque,posx,posy,speed);
 					}
 				}
 				
