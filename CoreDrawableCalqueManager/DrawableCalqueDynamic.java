@@ -32,11 +32,19 @@ public class DrawableCalqueDynamic extends DrawableCalqueBase
 	private boolean istoTarget = true;
 	// si le targetX et targetY est à 0 alors pas de mouvement
 	private boolean isMoveIt = true;
+	// rotation
+	private boolean rotation;
+	// sens rotation
+	private boolean sens_rotation;
 	
-	public DrawableCalqueDynamic(Texture text, String name, float posx, float posy, float speed, float targetX,float targetY) 
+	public DrawableCalqueDynamic(Texture text, String name, float posx, float posy, float speed, float targetX,float targetY,boolean rotation,boolean sens_rotation) 
 	{
 		// appel au constructeur de base pour les paramètres générique
 		super(text, name, posx, posy);
+		// rotation
+		this.rotation = rotation;
+		// sens rotation
+		this.sens_rotation = sens_rotation;
 		// vitesse
 		this.speed = speed;
 		// targetX et Y
@@ -52,6 +60,8 @@ public class DrawableCalqueDynamic extends DrawableCalqueBase
 		bd.type = BodyType.KINEMATIC;
 		bd.fixedRotation = true;
 		bd.bullet = false;
+		
+		
 				
 		//  taille de l'image, il faut rapporter par le centre
 		float tx = text.getSize().x;
@@ -126,12 +136,19 @@ public class DrawableCalqueDynamic extends DrawableCalqueBase
 			}
 		
 		}
-		// on récupère la position initial de l'objet
 		
+		// l'objet doit tourner sur lui même
+		if(this.rotation)
+		{
+			body.setAngularVelocity(this.speed);
+			
+		}
+		// on récupère la position initial de l'objet
 		// on créer la position d'affichage de l'objet image
 		Vector2f newPos = new Vector2f(currentPos.x * PhysicWorld.getRatioPixelMeter(),currentPos.y * PhysicWorld.getRatioPixelMeter());
 		// update de l'affichage
 		imageCalque.setPosition(newPos);
+		imageCalque.setRotation((float) ((body.getAngle() * 180) / Math.PI) % 360);
 		
 		
 	}
