@@ -282,7 +282,7 @@ public class LoaderMakeMap
 			TiledLayerImages layerImages = new TiledLayerImages();
 			
 			layerImages.setPathImage(virtualName);
-			layerImages.setName(virtualName);
+			layerImages.setName(path);
 			layerImages.setMasse(masse);
 			layerImages.setSpeed(speed);
 			layerImages.setTypeCalque(typeCalque);
