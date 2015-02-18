@@ -30,6 +30,8 @@ public class DrawableCalqueDynamic extends DrawableCalqueBase
 	private Vec2 targetPos,initialPos;
 	// boolean d'avance et recule
 	private boolean istoTarget = true;
+	// si le targetX et targetY est à 0 alors pas de mouvement
+	private boolean isMoveIt = true;
 	
 	public DrawableCalqueDynamic(Texture text, String name, float posx, float posy, float speed, float targetX,float targetY) 
 	{
@@ -40,6 +42,9 @@ public class DrawableCalqueDynamic extends DrawableCalqueBase
 		// targetX et Y
 		this.targetX = targetX;
 		this.targetY = targetY;
+		// si les targetX et Y sont à 0
+		if(this.targetX == 0f && this.targetY == 0f)
+			this.isMoveIt = false;
 		
 		// creation de l'objet body jbox2d bodydef
 		BodyDef bd = new BodyDef();
@@ -98,22 +103,29 @@ public class DrawableCalqueDynamic extends DrawableCalqueBase
 		// TODO Auto-generated method stub		
 		
 		// on vérifie que l'objet qui bouge n'est pas arrivé à destination
-		Vec2 currentPos = body.getPosition();
-		Vec2 diffEnd = targetPos.sub(currentPos);
-		Vec2 diffStart = initialPos.sub(currentPos);
-	
-		if(istoTarget && diffEnd.length() <= 0.2f)
-		{
-			// on retourne le sens de la velocity
-			body.setLinearVelocity(body.getLinearVelocity().negate());
-			istoTarget = false;
-		}
-	    if(!istoTarget && diffStart.length() <= 0.2f)
-		{
-			body.setLinearVelocity(body.getLinearVelocity().negate());
-			istoTarget = true;
-		}
 		
+		
+		Vec2 currentPos = body.getPosition();
+		
+		// si l'objet doit bouger
+		if(this.isMoveIt)
+		{
+			Vec2 diffEnd = targetPos.sub(currentPos);
+			Vec2 diffStart = initialPos.sub(currentPos);
+		
+			if(istoTarget && diffEnd.length() <= 0.2f)
+			{
+				// on retourne le sens de la velocity
+				body.setLinearVelocity(body.getLinearVelocity().negate());
+				istoTarget = false;
+			}
+		    if(!istoTarget && diffStart.length() <= 0.2f)
+			{
+				body.setLinearVelocity(body.getLinearVelocity().negate());
+				istoTarget = true;
+			}
+		
+		}
 		// on récupère la position initial de l'objet
 		
 		// on créer la position d'affichage de l'objet image
