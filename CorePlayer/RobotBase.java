@@ -45,6 +45,8 @@ public class RobotBase implements Drawable, ICoreBase
 		public enum SENS {PAUSE,GAUCHE,DROITE}; 
 			// direction choisie (pour animation)
 		protected SENS typeSens = SENS.PAUSE;
+		// backup du SENS
+		protected SENS backupSens = SENS.PAUSE;
 		// body physic
 		protected Body body;
 			// bodydef

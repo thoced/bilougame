@@ -102,13 +102,15 @@ public class SmallRobot extends RobotBase
 					{
 						// si la touche D, la direction va vers la droite
 						body.applyForce(new Vec2(256,0),body.getWorldCenter());
-						
-						
+		
 						// sens selectionné
 						this.typeSens = SENS.DROITE;
-						
-						
-					
+						// si le sens est différent, on possitionne les indice d'animation
+						if(this.backupSens != this.typeSens)
+							indAnim = 0;
+						// on sauvegarde le sens
+						this.backupSens = this.typeSens;
+	
 						
 					}else if( Keyboard.isKeyPressed(Keyboard.Key.Q))
 					{
@@ -117,6 +119,12 @@ public class SmallRobot extends RobotBase
 						
 						// sens selectionné
 						this.typeSens = SENS.GAUCHE;
+						// si le sens est différent, on possitionne les indice d'animation
+						if(this.backupSens != this.typeSens)
+							indAnim = 18;
+						
+						// on sauvegarde le sens
+						this.backupSens = this.typeSens;
 					
 									
 					
@@ -140,6 +148,7 @@ public class SmallRobot extends RobotBase
 	
 				
 		// VIEW ET ANIMATION
+				
 				if(this.typeSens == RobotBase.SENS.DROITE)
 				{
 					if(timeAnim.asSeconds() > 1f/24f)
@@ -164,11 +173,8 @@ public class SmallRobot extends RobotBase
 						}
 					}
 				}
-				
-
 		// update de l'animation
 		spritePlayer.setTextureRect(vectorAnim[indAnim]);
-		
 		// choix de l'anim
 		timeAnim = Time.add(deltaTime, timeAnim);
 		
