@@ -16,9 +16,12 @@ import org.jsfml.system.Time;
 import org.jsfml.system.Vector2f;
 import org.jsfml.system.Vector2i;
 import org.jsfml.window.Keyboard;
+import org.jsfml.window.Mouse;
+import org.jsfml.window.Mouse.Button;
 
 import bilou.PhysicWorld;
 import CoreGrapnel.Grapnel;
+import CoreManager.Manager;
 import CoreTexturesManager.TexturesManager;
 import Entities.SmallRobotControl;
 import Entities.RobotBase.SENS;
@@ -104,14 +107,22 @@ public class SmallRobot extends RobotBase
 				{
 					
 					this.typeSens = SENS.PAUSE;
+				
 					
 					// Grapnel
-					if( Keyboard.isKeyPressed(Keyboard.Key.U))
+					if( Mouse.isButtonPressed(Button.LEFT))
 					{
+						// on récupère la position de la souris
+						Vector2i mousePosition = Mouse.getPosition();
+						// on transforme en coordonnée ecran
+						Vector2f mouseCoord = Manager.getRenderWindow().mapPixelToCoords(mousePosition);
+						// on transforme le tout pour les coordonnées Physiques
+						Vector2f mouseM2 = PhysicWorld.convertToM2(mouseCoord);
 						// on créer un body final pour le test
 						BodyDef def = new BodyDef();
 						def.type = BodyType.STATIC;
-						def.position = body.getPosition().add(new Vec2(10f,0f));
+						//def.position = body.getPosition().add(new Vec2(mouseM2.x,mouseM2.y));
+						def.position = new Vec2(mouseM2.x,mouseM2.y);
 						def.bullet = false;
 						def.active = true;
 						// shape
@@ -120,6 +131,7 @@ public class SmallRobot extends RobotBase
 						// création du FixtureDef
 						FixtureDef fixtureDef = new FixtureDef();
 						fixtureDef.shape = circle;
+						fixtureDef.isSensor = true;
 						// création du body
 						Body b = PhysicWorld.getWorldPhysic().createBody(def);
 						// création du fixture
@@ -161,13 +173,11 @@ public class SmallRobot extends RobotBase
 						this.typeSens = SENS.GAUCHE;
 						// si le sens est différent, on possitionne les indice d'animation
 						if(this.backupSens != this.typeSens)
-							indAnim = 18;
+							indAnim = 24;
 						
 						// on sauvegarde le sens
 						this.backupSens = this.typeSens;
-					
-									
-					
+
 					}
 					
 					if(!this.isSpace && this.isground && Keyboard.isKeyPressed(Keyboard.Key.SPACE))
@@ -186,6 +196,42 @@ public class SmallRobot extends RobotBase
 					this.typeSens = SENS.PAUSE;
 		
 	
+				// animaiton de pause
+				if(this.typeSens == SENS.PAUSE)
+				{
+					if(this.backupSens == SENS.DROITE)
+					{
+						if(timeAnim.asSeconds() > 1f/24f)
+						{
+							indAnim++;
+							timeAnim = Time.ZERO;
+							
+							if(indAnim < 48)
+								indAnim = 48;
+							
+							if(indAnim > 57)
+							{
+								indAnim = 48;
+							}
+						}
+					}
+					else if(this.backupSens == SENS.GAUCHE)
+					{
+						if(timeAnim.asSeconds() > 1f/24f)
+						{
+							indAnim++;
+							timeAnim = Time.ZERO;
+							
+							if(indAnim < 60)
+								indAnim = 60;
+							
+							if(indAnim > 69)
+							{
+								indAnim = 60;
+							}
+						}
+					}
+				}
 				
 		// VIEW ET ANIMATION
 				
@@ -207,9 +253,9 @@ public class SmallRobot extends RobotBase
 					{
 						indAnim++;
 						timeAnim = Time.ZERO;
-						if(indAnim > 35)
+						if(indAnim > 41)
 						{
-							indAnim = 18;
+							indAnim = 24;
 						}
 					}
 				}
@@ -237,7 +283,7 @@ public class SmallRobot extends RobotBase
 		Vector2i size = TexturesManager.GetTextureByName("playerSmallRobot").getSize();
 		
 		// initialisation du vecteur d'animation
-		vectorAnim = new IntRect[36]; // 12 étant le nombre d'animation pour le player
+		vectorAnim = new IntRect[96]; // 12 étant le nombre d'animation pour le player
 		// on crée les floatrect
 		int x = 0;
 		int y = 0;
@@ -245,11 +291,11 @@ public class SmallRobot extends RobotBase
 		{
 			vectorAnim[i] = new IntRect(x,y,64,64);
 			x+=64;
-			if(x>=size.x)
+			if(x>=size.x - 64)
 			{
 				x=0;
 				y+=64;
-				if(y >= size.y)
+				if(y >= size.y-64)
 				{
 					break;
 				}
