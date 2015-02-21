@@ -74,7 +74,7 @@ public class DrawableCalquePhysic extends DrawableCalqueBase
 		bDef.type = BodyType.DYNAMIC;
 		bDef.position = new Vec2((posx + text.getSize().x /2) / PhysicWorld.getRatioPixelMeter(),(posy + text.getSize().y /2) / PhysicWorld.getRatioPixelMeter());
 		bDef.bullet = false;
-		bDef.gravityScale = 0f;
+	//	bDef.gravityScale = 0f;
 		
 		
 		// creation du body
