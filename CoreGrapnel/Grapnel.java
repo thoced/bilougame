@@ -15,6 +15,7 @@ import org.jbox2d.dynamics.joints.Joint;
 import org.jbox2d.dynamics.joints.DistanceJoint;
 import org.jbox2d.dynamics.joints.JointEdge;
 import org.jbox2d.dynamics.joints.JointType;
+import org.jbox2d.dynamics.joints.PulleyJointDef;
 import org.jsfml.graphics.Color;
 import org.jsfml.graphics.Drawable;
 import org.jsfml.graphics.PrimitiveType;
@@ -82,7 +83,7 @@ public class Grapnel implements ICoreBase, Drawable
 		{
 			// on crée la position du node
 			pos = pos.add(diff.mul(lengthNode * i));
-			// on crée le node intermédiaire et onb le récupère
+			// on crée le node intermédiaire et on le récupère
 			Bodynode = this.createNode(pos,lengthNode,Bodynode);
 			// on ajoute dans la liste
 			listNodes.add(Bodynode);
@@ -136,7 +137,6 @@ public class Grapnel implements ICoreBase, Drawable
 		distanceDef.frequencyHz = 4f;
 		distanceDef.dampingRatio = 0.5f;
 		distanceDef.type = JointType.DISTANCE;
-
 		// création du joint
 		DistanceJoint distance = (DistanceJoint) PhysicWorld.getWorldPhysic().createJoint(distanceDef);
 		// retour du body
@@ -156,11 +156,16 @@ public class Grapnel implements ICoreBase, Drawable
 				PhysicWorld.getWorldPhysic().destroyBody(b);
 		}
 		
-		if(this.alphaBody.getJointList() != null)
-			PhysicWorld.getWorldPhysic().destroyJoint(this.alphaBody.getJointList().joint);
-		if(this.braboBody.getJointList() != null)
-			PhysicWorld.getWorldPhysic().destroyJoint(this.braboBody.getJointList().joint);
+		if(this.alphaBody != null && this.braboBody != null)
+		{
 		
+			if(this.alphaBody.getJointList() != null)
+				PhysicWorld.getWorldPhysic().destroyJoint(this.alphaBody.getJointList().joint);
+			if(this.braboBody.getJointList() != null)
+				PhysicWorld.getWorldPhysic().destroyJoint(this.braboBody.getJointList().joint);
+			
+			PhysicWorld.getWorldPhysic().destroyBody(this.braboBody);
+		}
 		// on vide la liste
 		this.listNodes.clear();
 	}
