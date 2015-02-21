@@ -13,6 +13,7 @@ import org.jbox2d.dynamics.FixtureDef;
 import org.jbox2d.dynamics.joints.DistanceJointDef;
 import org.jbox2d.dynamics.joints.Joint;
 import org.jbox2d.dynamics.joints.DistanceJoint;
+import org.jbox2d.dynamics.joints.JointEdge;
 import org.jbox2d.dynamics.joints.JointType;
 import org.jsfml.graphics.Color;
 import org.jsfml.graphics.Drawable;
@@ -121,6 +122,7 @@ public class Grapnel implements ICoreBase, Drawable
 		fixtureDef.density = 1f;
 		fixtureDef.friction = 1f;
 		fixtureDef.restitution = 0f;
+		fixtureDef.isSensor = true;
 		fixtureDef.shape = circle;
 		// creation du fixture
 		body.createFixture(fixtureDef);
@@ -131,15 +133,36 @@ public class Grapnel implements ICoreBase, Drawable
 		distanceDef.initialize(bodyNodePrevious,body,bodyNodePrevious.getWorldCenter(),body.getWorldCenter());
 		distanceDef.length = lenght;
 		distanceDef.collideConnected = false;
-		distanceDef.frequencyHz = 4.0f;
+		distanceDef.frequencyHz = 4f;
 		distanceDef.dampingRatio = 0.5f;
 		distanceDef.type = JointType.DISTANCE;
 
 		// création du joint
 		DistanceJoint distance = (DistanceJoint) PhysicWorld.getWorldPhysic().createJoint(distanceDef);
-		
+		// retour du body
 		return body;
 		
+	}
+	
+	public void destroyGrapnel()
+	{
+		// on boucle dans la liste des nodes pour détruire les jointure
+		for(Body b : this.listNodes)
+		{
+			// on détruit le body également
+			if(b.getJointList() != null)
+				PhysicWorld.getWorldPhysic().destroyJoint(b.getJointList().joint);
+			if(b != this.alphaBody)
+				PhysicWorld.getWorldPhysic().destroyBody(b);
+		}
+		
+		if(this.alphaBody.getJointList() != null)
+			PhysicWorld.getWorldPhysic().destroyJoint(this.alphaBody.getJointList().joint);
+		if(this.braboBody.getJointList() != null)
+			PhysicWorld.getWorldPhysic().destroyJoint(this.braboBody.getJointList().joint);
+		
+		// on vide la liste
+		this.listNodes.clear();
 	}
 	
 	@Override
