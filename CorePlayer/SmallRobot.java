@@ -111,7 +111,7 @@ public class SmallRobot extends RobotBase
 						// on créer un body final pour le test
 						BodyDef def = new BodyDef();
 						def.type = BodyType.STATIC;
-						def.position = body.getPosition().add(new Vec2(5,-5));
+						def.position = body.getPosition().add(new Vec2(10f,0f));
 						def.bullet = false;
 						def.active = true;
 						// shape
@@ -127,6 +127,15 @@ public class SmallRobot extends RobotBase
 						
 						// on lance ensuite le grapnel
 						grapnel = new Grapnel(body,b,4);
+					}
+					
+					// Grapnel
+					if( Keyboard.isKeyPressed(Keyboard.Key.I))
+					{
+						// on détruit le grapnel
+						if(grapnel != null)
+							grapnel.destroyGrapnel();
+						
 					}
 			
 					if(  Keyboard.isKeyPressed(Keyboard.Key.D))
