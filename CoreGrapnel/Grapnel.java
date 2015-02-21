@@ -1,5 +1,9 @@
 package CoreGrapnel;
 
+
+import java.util.ArrayList;
+import java.util.List;
+
 import org.jbox2d.collision.shapes.CircleShape;
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.Body;
@@ -10,10 +14,15 @@ import org.jbox2d.dynamics.joints.DistanceJointDef;
 import org.jbox2d.dynamics.joints.Joint;
 import org.jbox2d.dynamics.joints.DistanceJoint;
 import org.jbox2d.dynamics.joints.JointType;
+import org.jsfml.graphics.Color;
 import org.jsfml.graphics.Drawable;
+import org.jsfml.graphics.PrimitiveType;
 import org.jsfml.graphics.RenderStates;
 import org.jsfml.graphics.RenderTarget;
+import org.jsfml.graphics.Vertex;
+import org.jsfml.graphics.VertexArray;
 import org.jsfml.system.Time;
+import org.jsfml.system.Vector2f;
 import org.jsfml.window.event.Event;
 
 import bilou.ICoreBase;
@@ -29,16 +38,26 @@ public class Grapnel implements ICoreBase, Drawable
 	private Body 	braboBody;
 	// Nombre de noeuds dans le grappin
 	private int 	nbNode;
+	// list contenant l'ensemble des nodes
+	private List<Body> listNodes;
+	// VertexArray
+	private VertexArray vectors;
 	
 	
 	public Grapnel(Body alpha,Body bravo, int nbNode)
 	{
+		// on instancie le vertex array
+		vectors = new VertexArray(PrimitiveType.LINE_STRIP);
 		// affectation des variable
 		this.alphaBody = alpha;
 		this.braboBody = bravo;
 		// affectation du nombre de noeuds
 		this.nbNode = nbNode;
 		if(this.nbNode < 1)this.nbNode = 1; // on évite ainsi de diviser ensuite par 0
+		// instance de la liste
+		listNodes = new ArrayList<Body>(this.nbNode);
+		// on ajoute le node de départ
+		listNodes.add(this.alphaBody);
 		// création de la liste des node virtuel
 		// on détermine le vecteur qui relie le alpha et le bravo
 		Vec2 posAlpha = this.alphaBody.getPosition();
@@ -63,9 +82,12 @@ public class Grapnel implements ICoreBase, Drawable
 			// on crée la position du node
 			pos = pos.add(diff.mul(lengthNode * i));
 			// on crée le node intermédiaire et onb le récupère
-			 Bodynode = this.createNode(pos,lengthNode,Bodynode);
+			Bodynode = this.createNode(pos,lengthNode,Bodynode);
+			// on ajoute dans la liste
+			listNodes.add(Bodynode);
 		}
-		
+		// on ajoute dans la liste le dernier Node
+		listNodes.add(this.braboBody);
 		// on relie les tout au Bravo final
 		
 		DistanceJointDef distanceDef = new DistanceJointDef();
@@ -76,8 +98,6 @@ public class Grapnel implements ICoreBase, Drawable
 
 		// création du joint
 		DistanceJoint distance = (DistanceJoint) PhysicWorld.getWorldPhysic().createJoint(distanceDef);
-				
-		
 		
 	}
 	
@@ -95,7 +115,7 @@ public class Grapnel implements ICoreBase, Drawable
 		Body body = PhysicWorld.getWorldPhysic().createBody(def);
 		// création du shape
 		CircleShape circle = new CircleShape();
-		circle.m_radius = 2f;
+		circle.m_radius = 0.1f;
 		// Fixture definition
 		FixtureDef fixtureDef = new FixtureDef();
 		fixtureDef.density = 1f;
@@ -111,6 +131,8 @@ public class Grapnel implements ICoreBase, Drawable
 		distanceDef.initialize(bodyNodePrevious,body,bodyNodePrevious.getWorldCenter(),body.getWorldCenter());
 		distanceDef.length = lenght;
 		distanceDef.collideConnected = false;
+		distanceDef.frequencyHz = 4.0f;
+		distanceDef.dampingRatio = 0.5f;
 		distanceDef.type = JointType.DISTANCE;
 
 		// création du joint
@@ -121,8 +143,21 @@ public class Grapnel implements ICoreBase, Drawable
 	}
 	
 	@Override
-	public void draw(RenderTarget arg0, RenderStates arg1) {
-		// TODO Auto-generated method stub
+	public void draw(RenderTarget render, RenderStates state) 
+	{
+		// on vide le vectors
+		vectors.clear();
+		// on boucle dans la liste des nodes pour crée les point de la ligne
+		for(Body b : listNodes)
+		{
+			// on crée un vertex
+			Vertex v = new Vertex(new Vector2f(b.getPosition().x * PhysicWorld.getRatioPixelMeter(),b.getPosition().y * PhysicWorld.getRatioPixelMeter()),Color.WHITE);
+			// on ajoute dans le vectors
+			vectors.add(v);
+		}
+		
+		// render
+		render.draw(vectors,state);
 		
 	}
 

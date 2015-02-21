@@ -1,12 +1,16 @@
 package CorePlayer;
 
+import org.jbox2d.collision.shapes.CircleShape;
 import org.jbox2d.collision.shapes.PolygonShape;
 import org.jbox2d.common.Vec2;
+import org.jbox2d.dynamics.Body;
 import org.jbox2d.dynamics.BodyDef;
 import org.jbox2d.dynamics.BodyType;
 import org.jbox2d.dynamics.FixtureDef;
 import org.jsfml.graphics.FloatRect;
 import org.jsfml.graphics.IntRect;
+import org.jsfml.graphics.RenderStates;
+import org.jsfml.graphics.RenderTarget;
 import org.jsfml.graphics.Sprite;
 import org.jsfml.system.Time;
 import org.jsfml.system.Vector2f;
@@ -14,6 +18,7 @@ import org.jsfml.system.Vector2i;
 import org.jsfml.window.Keyboard;
 
 import bilou.PhysicWorld;
+import CoreGrapnel.Grapnel;
 import CoreTexturesManager.TexturesManager;
 import Entities.SmallRobotControl;
 import Entities.RobotBase.SENS;
@@ -39,6 +44,8 @@ public class SmallRobot extends RobotBase
 		
 		// la touche space est elle enfoncée
 		private boolean isSpace = false;
+		// Grapnel
+		private Grapnel grapnel;
 		
 		
 	
@@ -97,6 +104,30 @@ public class SmallRobot extends RobotBase
 				{
 					
 					this.typeSens = SENS.PAUSE;
+					
+					// Grapnel
+					if( Keyboard.isKeyPressed(Keyboard.Key.U))
+					{
+						// on créer un body final pour le test
+						BodyDef def = new BodyDef();
+						def.type = BodyType.STATIC;
+						def.position = body.getPosition().add(new Vec2(5,-5));
+						def.bullet = false;
+						def.active = true;
+						// shape
+						CircleShape circle = new CircleShape();
+						circle.m_radius = 0.1f;
+						// création du FixtureDef
+						FixtureDef fixtureDef = new FixtureDef();
+						fixtureDef.shape = circle;
+						// création du body
+						Body b = PhysicWorld.getWorldPhysic().createBody(def);
+						// création du fixture
+						b.createFixture(fixtureDef);
+						
+						// on lance ensuite le grapnel
+						grapnel = new Grapnel(body,b,4);
+					}
 			
 					if(  Keyboard.isKeyPressed(Keyboard.Key.D))
 					{
@@ -220,6 +251,21 @@ public class SmallRobot extends RobotBase
 		// on spécifie l'indice maximal de l'animation
 		indMaxAnim = vectorAnim.length;
 	}
+
+	/* (non-Javadoc)
+	 * @see CorePlayer.RobotBase#draw(org.jsfml.graphics.RenderTarget, org.jsfml.graphics.RenderStates)
+	 */
+	@Override
+	public void draw(RenderTarget render, RenderStates state) {
+		// TODO Auto-generated method stub
+		super.draw(render, state);
+		
+		// render du grapnel
+		if(grapnel != null)
+			grapnel.draw(render, state);
+	}
+	
+	
 	
 	
 	

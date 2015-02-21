@@ -405,7 +405,6 @@ public class RobotBase implements Drawable, ICoreBase
 		
 		spritePlayer.setPosition(tpos);
 		
-
 		spritePlayer.setOrigin(new Vector2f(32,32));
 		
 		// test update camera
