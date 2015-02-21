@@ -39,6 +39,17 @@ public class PhysicWorld implements ICoreBase {
 		// setContinuousPhysics
 		worldPhysic.setContinuousPhysics(true);
 	}
+	public static Vec2 convertToM2VEC(Vector2f mouseCoord)
+	{
+		Vector2f temp =  Vector2f.div(mouseCoord,PhysicWorld.getRatioPixelMeter());
+		return new Vec2(temp.x,temp.y);
+	}
+	
+	public static Vec2 convertToPixelsVEC(Vector2f p)
+	{
+		Vector2f temp =  Vector2f.mul(p,PhysicWorld.getRatioPixelMeter());
+		return new Vec2(temp.x,temp.y);
+	}
 	
 	public static Vector2f convertToM2(Vector2f mouseCoord)
 	{

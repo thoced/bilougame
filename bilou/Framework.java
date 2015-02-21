@@ -125,7 +125,7 @@ public class Framework
 		renderText.create(window.getSize().x, window.getSize().y);
 		
 		// manager 
-		Manager.setRenderWindow(renderText);
+		Manager.setRenderTexture(renderText);
 	
 		
 	//	renderText.setView(window.getView());

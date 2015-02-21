@@ -108,14 +108,13 @@ public class SmallRobot extends RobotBase
 					
 					this.typeSens = SENS.PAUSE;
 				
-					
 					// Grapnel
 					if( Mouse.isButtonPressed(Button.LEFT))
 					{
 						// on récupère la position de la souris
 						Vector2i mousePosition = Mouse.getPosition();
 						// on transforme en coordonnée ecran
-						Vector2f mouseCoord = Manager.getRenderWindow().mapPixelToCoords(mousePosition);
+						Vector2f mouseCoord = Manager.getRenderTexture().mapPixelToCoords(mousePosition);
 						// on transforme le tout pour les coordonnées Physiques
 						Vector2f mouseM2 = PhysicWorld.convertToM2(mouseCoord);
 						// on créer un body final pour le test

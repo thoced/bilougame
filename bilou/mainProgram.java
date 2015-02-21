@@ -25,7 +25,7 @@ public class mainProgram {
 		window.create(new VideoMode(1360, 768), "THOCED FrameWork (Test QuadTree)");
 		window.setFramerateLimit(60);
 		
-
+		Manager.setRenderWindow(window);
 	//	window.setMouseCursorVisible(false);
 		
 		Framework framework = null;
