@@ -14,7 +14,7 @@ import org.jsfml.window.event.Event;
 public class Camera implements ICoreBase
 {
 	// View
-	private View view;
+	private static View view;
 	// Constante
 	public static Vector2f Right = 	new Vector2f(1,0);
 	public static Vector2f Left = 	new Vector2f(-1,0);
@@ -67,14 +67,14 @@ public class Camera implements ICoreBase
 	
 //Fill the win
 	
-	public View getView()
+	public static View getView()
 	{
-		return view;
+		return Camera.view;
 	}
 
-	public void setView(View view)
+	public static void  setView(View view)
 	{
-		this.view = view;
+		view = view;
 	}
 	
 	public void Move(Vector2f move)

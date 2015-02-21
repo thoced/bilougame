@@ -7,6 +7,8 @@ import org.jbox2d.dynamics.World;
 import org.jsfml.graphics.RenderStates;
 import org.jsfml.graphics.RenderTexture;
 import org.jsfml.system.Time;
+import org.jsfml.system.Vector2f;
+import org.jsfml.system.Vector2i;
 import org.jsfml.window.event.Event;
 
 
@@ -38,8 +40,15 @@ public class PhysicWorld implements ICoreBase {
 		worldPhysic.setContinuousPhysics(true);
 	}
 	
+	public static Vector2f convertToM2(Vector2f mouseCoord)
+	{
+		return Vector2f.div(mouseCoord,PhysicWorld.getRatioPixelMeter());
+	}
 	
-	
+	public static Vector2f convertToPixels(Vector2f p)
+	{
+		return Vector2f.mul(p,PhysicWorld.getRatioPixelMeter());
+	}
 	/**
 	 * @return the ratio
 	 */

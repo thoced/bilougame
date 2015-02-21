@@ -38,6 +38,7 @@ import CoreDrawableCalqueManager.DrawableCalqueBase;
 import CoreDrawableCalqueManager.DrawableCalqueDynamic;
 import CoreDrawableCalqueManager.DrawableCalqueManager;
 import CoreDrawableCalqueManager.DrawableCalquePhysic;
+import CoreManager.Manager;
 import CoreManagerObstacle.ObstacleManager;
 import CorePlayer.PlayerManager;
 import CorePlayer.SmallRobot;
@@ -122,6 +123,11 @@ public class Framework
 		// RenderTexture 01
 		renderText = new RenderTexture();
 		renderText.create(window.getSize().x, window.getSize().y);
+		
+		// manager 
+		Manager.setRenderWindow(renderText);
+	
+		
 	//	renderText.setView(window.getView());
 		// creation du postEffect Sprite
 		postEffect1 = new Sprite(renderText.getTexture());

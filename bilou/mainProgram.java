@@ -3,10 +3,14 @@ package bilou;
 import org.jsfml.graphics.Color;
 import org.jsfml.graphics.RenderWindow;
 import org.jsfml.graphics.TextureCreationException;
+import org.jsfml.system.Vector2f;
+import org.jsfml.system.Vector2i;
 import org.jsfml.window.Keyboard;
 import org.jsfml.window.VideoMode;
 import org.jsfml.window.event.Event;
 import org.jsfml.window.event.KeyEvent;
+
+import CoreManager.Manager;
 
 public class mainProgram {
 
@@ -15,12 +19,14 @@ public class mainProgram {
 		
 		// TODO Auto-generated method stub
 		//Create the window
+		Manager manage = new Manager();
 		RenderWindow window = new RenderWindow();
 		
 		window.create(new VideoMode(1360, 768), "THOCED FrameWork (Test QuadTree)");
 		window.setFramerateLimit(60);
 		
-		window.setMouseCursorVisible(false);
+
+	//	window.setMouseCursorVisible(false);
 		
 		Framework framework = null;
 		try 
@@ -70,8 +76,8 @@ public class mainProgram {
 	        // draw
 	        framework.Draw(window);
 	       
-	      
-	        
+	     //  window.setView(Camera.getView());
+	     
 
 		    
 		}
