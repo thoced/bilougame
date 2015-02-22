@@ -38,6 +38,8 @@ import CoreDrawableCalqueManager.DrawableCalqueBase;
 import CoreDrawableCalqueManager.DrawableCalqueDynamic;
 import CoreDrawableCalqueManager.DrawableCalqueManager;
 import CoreDrawableCalqueManager.DrawableCalquePhysic;
+import CoreFx.LustreFx;
+import CoreFx.ManagerFx;
 import CoreManager.Manager;
 import CoreManagerObstacle.ObstacleManager;
 import CorePlayer.PlayerManager;
@@ -100,6 +102,8 @@ public class Framework
 	private DrawableCalqueManager calquesManager;
 	// PhysicWorld
 	private PhysicWorld physic;
+	// Fx Manager
+	private ManagerFx fxManager;
 
 	
 	private DrawableMap dm,dm2;
@@ -172,6 +176,10 @@ public class Framework
 		calquesManager = new DrawableCalqueManager();
 		// player manager
 		playerManager = new PlayerManager();
+		// fx manager
+		fxManager = new ManagerFx();
+		// ajout dans le manager
+		Manager.setManagerFx(fxManager);
 		
 		// background
 		background = new BackgroundDrawable(window.getView().getSize());
@@ -202,6 +210,9 @@ public class Framework
 		// update du entities manager
 		//entitiesManager.update(deltaTime);
 		playerManager.update(deltaTime);
+		
+		// update du fxmanager
+		fxManager.update(deltaTime);
 		
 		// suppression des élements
 		arrayElements.removeAll(arrayDelete);
@@ -239,6 +250,12 @@ public class Framework
 		renderText.setView(camera.getView());
 		//entitiesManager.draw(renderText,rStateForeGround);
 		playerManager.draw(renderText, rStateForeGround);
+		renderText.display();
+		
+		// appel a la methode draw du fx manager
+		renderText.setView(camera.getView());
+		//entitiesManager.draw(renderText,rStateForeGround);
+		fxManager.draw(renderText, rStateForeGround);
 		renderText.display();
 		
 		
@@ -472,6 +489,16 @@ public class Framework
 		
 	//	arrayElements.add(lens);
 		//arrayElements.add(rob);
+		
+		// test du fx
+		LustreFx lustre = new LustreFx(new Vector2f(648f,1128f),16f);
+		Manager.getManagerFx().insertFx(lustre);
+		
+		lustre = new LustreFx(new Vector2f(420f,1128f),16f);
+		Manager.getManagerFx().insertFx(lustre);
+		
+		//lustre = new LustreFx(new Vector2f(648f,1128f),16f);
+		//Manager.getManagerFx().insertFx(lustre);
 	}
 	
 	public void ReleaseContent()
