@@ -3,12 +3,32 @@ package CoreManager;
 import org.jsfml.graphics.RenderTexture;
 import org.jsfml.graphics.RenderWindow;
 
+import CoreFx.ManagerFx;
+
 public class Manager 
 {
 	// class manager static
 	private static RenderTexture renderTexture;
 	
 	private static RenderWindow renderWindow;
+	
+	private static ManagerFx managerFx;
+
+	
+	
+	/**
+	 * @return the managerFx
+	 */
+	public static ManagerFx getManagerFx() {
+		return managerFx;
+	}
+
+	/**
+	 * @param managerFx the managerFx to set
+	 */
+	public static void setManagerFx(ManagerFx managerFx) {
+		Manager.managerFx = managerFx;
+	}
 
 	/**
 	 * @return the renderTexture
