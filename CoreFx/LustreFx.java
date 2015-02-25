@@ -168,8 +168,7 @@ public class LustreFx extends BaseFx
 		// création des renderstates
 		stateAbajour = new RenderStates(BlendMode.NONE);
 		stateCone = new RenderStates(BlendMode.ADD);
-		
-		PhysicWorld.getWorldPhysic().raycast(new rayCast(), bodyLampe.getPosition(), bodyLampe.getPosition().add(new Vec2(20,0)));
+	
 	}
 	
 	private Body createNode(Vector2f pos,Body previousBody)

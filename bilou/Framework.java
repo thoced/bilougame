@@ -105,12 +105,14 @@ public class Framework
 	// Fx Manager
 	private ManagerFx fxManager;
 
-	
 	private DrawableMap dm,dm2;
 	
 	private Texture charlie;
 	
 	private Sprite charlieSprite;
+	
+	// Manager
+	private Manager manager;
 	
 	// backgrond
 	private BackgroundDrawable background;
@@ -178,6 +180,8 @@ public class Framework
 		playerManager = new PlayerManager();
 		// fx manager
 		fxManager = new ManagerFx();
+		// Manager
+		manager = new Manager();
 		// ajout dans le manager
 		Manager.setManagerFx(fxManager);
 		
@@ -223,6 +227,9 @@ public class Framework
 		// update du Background
 		background.update(deltaTime);
 		
+		// update du manager
+		manager.update(deltaTime);
+		
 				
 	}
 	
@@ -258,6 +265,10 @@ public class Framework
 		fxManager.draw(renderText, rStateForeGround);
 		renderText.display();
 		
+		// Manager
+		renderText.setView(camera.getView());
+		manager.draw(renderText, rStateBackground);
+		renderText.display();
 		
 		// affichage dans la fenetre principale (écran)
 		window.clear(new Color(3,32,48));
