@@ -120,6 +120,8 @@ public class SmallRobot extends RobotBase
 							managerGrapnel = new ManagerGrapnel(this.body.getPosition());
 						// ajout du manager grapnel dans le manager general
 						Manager.getListManager().add(managerGrapnel);
+						// modification du SlowMotion
+						PhysicWorld.setSlowMotion(true);
 						
 						
 												
@@ -165,6 +167,8 @@ public class SmallRobot extends RobotBase
 							// on lance le grapnel
 							grapnel = new Grapnel(body,bodyContact,pointContact,4);
 							Manager.getListManager().remove(this.managerGrapnel);
+							// modification du slowmotion
+							PhysicWorld.setSlowMotion(false);
 						}
 					}
 					
