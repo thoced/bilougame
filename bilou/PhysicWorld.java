@@ -27,6 +27,11 @@ public class PhysicWorld implements ICoreBase {
 	// ratio (pixels / m)
 	private static float ratio = 32.0f;
 	
+	// Slow motion
+	private static boolean slowMotion = false;
+	
+	private static float valueMotion = 1f/60f;
+	
 	public PhysicWorld()
 	{
 		pw = this;
@@ -39,6 +44,32 @@ public class PhysicWorld implements ICoreBase {
 		// setContinuousPhysics
 		worldPhysic.setContinuousPhysics(true);
 	}
+	
+
+	
+	/**
+	 * @return the slowMotion
+	 */
+	public static boolean isSlowMotion()
+	{
+		return slowMotion;
+	}
+
+	/**
+	 * @param slowMotion the slowMotion to set
+	 */
+	public static void setSlowMotion(boolean slowMotion) 
+	{
+		PhysicWorld.slowMotion = slowMotion;
+		// modification du slowmotion
+		if(PhysicWorld.slowMotion)
+			PhysicWorld.valueMotion = 1f/512f;
+		else
+			PhysicWorld.valueMotion = 1f/60f;
+	}
+
+
+
 	public static Vec2 convertToM2VEC(Vector2f mouseCoord)
 	{
 		Vector2f temp =  Vector2f.div(mouseCoord,PhysicWorld.getRatioPixelMeter());
@@ -87,7 +118,7 @@ public class PhysicWorld implements ICoreBase {
 	public void update(Time deltaTime) 
 	{
 		// TODO Auto-generated method stub
-		worldPhysic.step(1.0f/60.0f,2, 1);
+		worldPhysic.step(PhysicWorld.valueMotion,2, 1);
 		
 	}
 
