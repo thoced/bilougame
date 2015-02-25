@@ -21,6 +21,7 @@ import org.jsfml.window.Mouse.Button;
 
 import bilou.PhysicWorld;
 import CoreGrapnel.Grapnel;
+import CoreGrapnel.ManagerGrapnel;
 import CoreManager.Manager;
 import CoreTexturesManager.TexturesManager;
 import Entities.SmallRobotControl;
@@ -49,6 +50,10 @@ public class SmallRobot extends RobotBase
 		private boolean isSpace = false;
 		// Grapnel
 		private Grapnel grapnel;
+		// clic gauche enfoncé
+		private boolean clikLeft = false;
+		// Manager Grapnel
+		private ManagerGrapnel managerGrapnel;
 		
 		
 	
@@ -109,10 +114,19 @@ public class SmallRobot extends RobotBase
 					this.typeSens = SENS.PAUSE;
 				
 					// Grapnel
-					if( Mouse.isButtonPressed(Button.LEFT))
+					if(!this.clikLeft && Mouse.isButtonPressed(Button.LEFT))
 					{
+						// on appuye sur le clic gauche, on place la varaibleclic gauche à true
+						this.clikLeft = true;
+						if(managerGrapnel == null)
+							managerGrapnel = new ManagerGrapnel(this.body.getPosition());
+						// ajout du manager grapnel dans le manager general
+						Manager.getListManager().add(managerGrapnel);
+						
+						
+												
 						// on récupère la position de la souris
-						Vector2i mousePosition = Mouse.getPosition();
+						/*Vector2i mousePosition = Mouse.getPosition();
 						// on transforme en coordonnée ecran
 						Vector2f mouseCoord = Manager.getRenderTexture().mapPixelToCoords(mousePosition);
 						// on transforme le tout pour les coordonnées Physiques
@@ -137,8 +151,17 @@ public class SmallRobot extends RobotBase
 						b.createFixture(fixtureDef);
 						
 						// on lance ensuite le grapnel
-						grapnel = new Grapnel(body,b,4);
+						grapnel = new Grapnel(body,b,4);*/
 					}
+					else
+					{
+						// le clik gauche n'est plus enfoncé
+						this.clikLeft = false;
+						if(this.managerGrapnel != null)
+							Manager.getListManager().remove(this.managerGrapnel);
+					}
+					
+					
 					
 					// Grapnel
 					if( Keyboard.isKeyPressed(Keyboard.Key.I))
@@ -263,7 +286,15 @@ public class SmallRobot extends RobotBase
 		// choix de l'anim
 		timeAnim = Time.add(deltaTime, timeAnim);
 		
+	
 		
+		
+	}
+	
+	public void searchAttachGrapnel()
+	{
+		
+	
 	}
 
 	/* (non-Javadoc)
