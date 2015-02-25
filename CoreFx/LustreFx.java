@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.jbox2d.collision.shapes.CircleShape;
 import org.jbox2d.collision.shapes.PolygonShape;
+import org.jbox2d.common.Transform;
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.Body;
 import org.jbox2d.dynamics.BodyDef;
@@ -61,6 +62,8 @@ public class LustreFx extends BaseFx
 	private RenderStates stateAbajour;
 	// RenderState pour le cone de lumière
 	private RenderStates stateCone;
+	// valeur diff
+	private Vector2f off = new Vector2f(2,0);
 	
 	
 	public LustreFx(Vector2f pos,float size)
@@ -149,14 +152,15 @@ public class LustreFx extends BaseFx
 		// chargement de la texture de la partie mobile
 		textureMobile = TexturesManager.GetTextureByName("lustremobil.png");
 		// chargement de la texture du cone de lumière
-		textureCone = TexturesManager.GetTextureByName("lustrecone.png");
+		textureCone = TexturesManager.GetTextureByName("lumiere_lamp06.png");
 		// création des sprites
 		spriteFix = new Sprite(textureFix);
 		spriteFix.setPosition(this.position);
 		spriteMobile = new Sprite(textureMobile);
 		spriteMobile.setOrigin(textureMobile.getSize().x /2, 0f);
 		spriteCone = new Sprite(textureCone);
-		spriteCone.setOrigin(textureCone.getSize().x/2, 0f);
+		//spriteCone.setOrigin(textureCone.getSize().x/2, 0f);
+		spriteCone.setOrigin(textureCone.getSize().x/2, textureCone.getSize().y/2);
 	
 		// inbstance du vertexArray
 		vectors = new VertexArray(PrimitiveType.LINE_STRIP);
@@ -164,6 +168,8 @@ public class LustreFx extends BaseFx
 		// création des renderstates
 		stateAbajour = new RenderStates(BlendMode.NONE);
 		stateCone = new RenderStates(BlendMode.ADD);
+		
+		PhysicWorld.getWorldPhysic().raycast(new rayCast(), bodyLampe.getPosition(), bodyLampe.getPosition().add(new Vec2(20,0)));
 	}
 	
 	private Body createNode(Vector2f pos,Body previousBody)
@@ -201,6 +207,14 @@ public class LustreFx extends BaseFx
 		// retour du body
 		return body;
 	}
+	
+	private VertexArray createSegment(VertexArray in,Vector2f posStart,Vector2f posEnd)
+	{
+		// a partir des valeurs on créer deux valeur aux extrémitées
+		Vector2f a1,a2,b1,b2;
+	
+		return null;
+	}
 
 	/* (non-Javadoc)
 	 * @see CoreFx.BaseFx#draw(org.jsfml.graphics.RenderTarget, org.jsfml.graphics.RenderStates)
@@ -214,7 +228,7 @@ public class LustreFx extends BaseFx
 		// affichage de la texture du cone de lumière
 		spriteCone.draw(render, stateCone);	
 		// affichage du texture fix
-		spriteMobile.draw(render, stateAbajour);
+	//	spriteMobile.draw(render, stateAbajour);
 		
 		vectors.clear();
 		// dessin du fil

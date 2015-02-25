@@ -491,10 +491,10 @@ public class Framework
 		//arrayElements.add(rob);
 		
 		// test du fx
-		LustreFx lustre = new LustreFx(new Vector2f(648f,1128f),16f);
+		LustreFx lustre = new LustreFx(new Vector2f(648f,1024f),16f);
 		Manager.getManagerFx().insertFx(lustre);
 		
-		lustre = new LustreFx(new Vector2f(420f,1128f),16f);
+		lustre = new LustreFx(new Vector2f(420f,1024f),16f);
 		Manager.getManagerFx().insertFx(lustre);
 		
 		//lustre = new LustreFx(new Vector2f(648f,1128f),16f);

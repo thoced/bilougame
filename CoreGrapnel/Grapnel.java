@@ -96,8 +96,8 @@ public class Grapnel implements ICoreBase, Drawable
 		distanceDef.initialize(Bodynode, this.braboBody, Bodynode.getWorldCenter(), this.braboBody.getWorldCenter());
 		distanceDef.length = lengthNode;
 		distanceDef.collideConnected = false;
-		distanceDef.frequencyHz = 100f;
-		distanceDef.dampingRatio = 1000f;
+		distanceDef.frequencyHz = 10;
+		distanceDef.dampingRatio = 10f;
 		distanceDef.type = JointType.DISTANCE;
 
 		// création du joint
@@ -136,8 +136,8 @@ public class Grapnel implements ICoreBase, Drawable
 		distanceDef.initialize(bodyNodePrevious,body,bodyNodePrevious.getWorldCenter(),body.getWorldCenter());
 		distanceDef.length = lenght;
 		distanceDef.collideConnected = false;
-		distanceDef.frequencyHz = 100f;
-		distanceDef.dampingRatio = 1000f;
+		distanceDef.frequencyHz = 10;
+		distanceDef.dampingRatio = 10f;
 		distanceDef.type = JointType.DISTANCE;
 		// création du joint
 		DistanceJoint distance = (DistanceJoint) PhysicWorld.getWorldPhysic().createJoint(distanceDef);

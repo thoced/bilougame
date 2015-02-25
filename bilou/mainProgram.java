@@ -22,7 +22,7 @@ public class mainProgram {
 		Manager manage = new Manager();
 		RenderWindow window = new RenderWindow();
 		
-		window.create(new VideoMode(1360, 768), "THOCED FrameWork (Test QuadTree)");
+		window.create(new VideoMode(1360, 768), "THOCED FrameWork (Test QuadTree)",RenderWindow.FULLSCREEN);
 		window.setFramerateLimit(60);
 		
 		Manager.setRenderWindow(window);
