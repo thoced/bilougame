@@ -192,7 +192,7 @@ public class Framework
 	
 	public void Update()
 	{
-		fps++;
+		/*fps++;
 		
 		Time deltaTime = frameClock.restart();
 		
@@ -204,6 +204,9 @@ public class Framework
 			fps=0;
 			fpsTime = Time.ZERO;
 		}
+		*/
+		
+		Time deltaTime =  org.jsfml.system.Time.getMilliseconds(10);
 		
 		// update camera
 		camera.update(deltaTime);
