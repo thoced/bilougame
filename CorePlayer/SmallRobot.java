@@ -168,19 +168,16 @@ public class SmallRobot extends RobotBase
 						}
 					}
 					
-					
-					
-					// Grapnel
-					if( Keyboard.isKeyPressed(Keyboard.Key.I))
+					if(Mouse.isButtonPressed(Button.RIGHT))
 					{
 						// on détruit le grapnel
 						if(grapnel != null)
 						{
 							grapnel.destroyGrapnel();
 						}
-						
 					}
-			
+	
+					
 					if(  Keyboard.isKeyPressed(Keyboard.Key.D))
 					{
 						// si la touche D, la direction va vers la droite

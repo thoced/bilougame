@@ -87,10 +87,8 @@ public class PhysicWorld implements ICoreBase {
 	public void update(Time deltaTime) 
 	{
 		// TODO Auto-generated method stub
-		
 		worldPhysic.step(1.0f/60.0f,2, 1);
 		
-	
 	}
 
 
