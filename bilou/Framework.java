@@ -360,7 +360,7 @@ public class Framework
 		try 
 		{
 			// chargement de la map
-			tiled.Load(LoaderTiled.class.getResourceAsStream("/Maps/mapascenseur.json"));
+			tiled.Load(LoaderTiled.class.getResourceAsStream("/Maps/mapbroyeur2.json"));
 			// création d'une texture (tileset)
 			//Texture text = new Texture();
 			// chargement de la texture

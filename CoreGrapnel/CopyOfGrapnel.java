@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.jbox2d.collision.shapes.CircleShape;
-import org.jbox2d.collision.shapes.PolygonShape;
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.Body;
 import org.jbox2d.dynamics.BodyDef;
@@ -32,109 +31,88 @@ import org.jsfml.window.event.Event;
 import bilou.ICoreBase;
 import bilou.PhysicWorld;
 
-public class Grapnel implements ICoreBase, Drawable 
+public class CopyOfGrapnel implements ICoreBase, Drawable 
 {
 	// class de création du grappin
 	
 	// class body alpha (accroche du debut)
 	private Body 	alphaBody;
 	// class body bravo
-	private Body 	bravoBody;
-	
-	// Body attaché
-	private Body   bodyAttach;
+	private Body 	braboBody;
 	// Nombre de noeuds dans le grappin
 	private int 	nbNode;
 	// list contenant l'ensemble des nodes
-	private List<Body> listNodes;
+	private List<Vec2> listNodes;
 	// VertexArray
 	private VertexArray vectors;
 	
 	
-	private org.jsfml.graphics.CircleShape circleShape;
-	
-	public Grapnel(Body alpha,Body bravo,Vec2 point, int nbNode)
+	public CopyOfGrapnel(Body alpha,Body bravo,Vec2 point, int nbNode)
 	{
-		this.listNodes = new ArrayList<Body>();
-		this.listNodes.add(alpha);
+		
 		// on instancie le vertex array
 		vectors = new VertexArray(PrimitiveType.LINE_STRIP);
+		// affectation des variable
+		this.alphaBody = alpha;
+		this.braboBody = bravo;
+		// affectation du nombre de noeuds
+		this.nbNode = nbNode;
+		if(this.nbNode < 1)this.nbNode = 1; // on évite ainsi de diviser ensuite par 0
+		// instance de la liste
+		listNodes = new ArrayList<Vec2>(this.nbNode);
+		// on ajoute le node de départ
+		listNodes.add(this.alphaBody.getPosition());
+		// création de la liste des node virtuel
+		// on détermine le vecteur qui relie le alpha et le bravo
+		Vec2 posAlpha = this.alphaBody.getPosition();
+		Vec2 posBravo = point;//this.braboBody.getPosition();
+		Vec2  diff = posBravo.sub(posAlpha);
+		// obtention de la longueur entre l'alpha et le bravo
+		float length = diff.length();
+		// on normalise pour obtenir le vecteur direction
+		diff.normalize();
+		// on connait la distance et le nombre de noeuds voulu, on divise pour obtenir l'intervale
+		// entre chaque noeud virtuel
+		float lengthNode = length / this.nbNode;
 		
-		// on crée simplement un objet que l'on va attaché weld
-		BodyDef def = new BodyDef();
-		def.active = true;
-		def.bullet = false;
-		def.fixedRotation = false;
-		def.position = point;
-		def.type = BodyType.DYNAMIC;
+		// on crée la position de départ
+		Vec2 pos = posAlpha;
+		// on place le premier body node
+		Body Bodynode = this.alphaBody;
 		
-		// shape
-		CircleShape shape = new CircleShape();
-		shape.setRadius(0.1f);
-		// Fixturedef
-		FixtureDef fixtureDef = new FixtureDef();
-		fixtureDef.density = 1f;
-		fixtureDef.friction = 1f;
-		fixtureDef.restitution = 0f;
-		fixtureDef.isSensor = true;
-		fixtureDef.shape = shape;
+		// on boucle au nombre de node voulu
+		/*for(int i=1;i<=this.nbNode;i++)
+		{
+			// on crée la position du node
+			pos = pos.add(diff.mul(lengthNode * i));
+			// on crée le node intermédiaire et on le récupère
+			Bodynode = this.createNode(pos,lengthNode,Bodynode);
+			// on ajoute dans la liste
+			listNodes.add(Bodynode.getPosition());
+		}*/
+		// on ajoute dans la liste le dernier Node
+		listNodes.add(posBravo);
+		// on relie les tout au Bravo final
 		
-		// création du body
-		bodyAttach = PhysicWorld.getWorldPhysic().createBody(def);
-		// fixture
-		bodyAttach.createFixture(fixtureDef);
-		
-		
-		
-		// on lie en weld l'objet
+		// on éer le body final qui sera attaché 
 		WeldJointDef wd = new WeldJointDef();
-		wd.initialize(bodyAttach, bravo, point);
+		wd.bodyA = Bodynode;
+		wd.bodyB = this.braboBody;
+		wd.initialize(Bodynode, braboBody, point);
 		PhysicWorld.getWorldPhysic().createJoint(wd);
 		
-		this.circleShape = new org.jsfml.graphics.CircleShape();
-		this.circleShape.setFillColor(Color.WHITE);
-		this.circleShape.setRadius(5f);
 		
-		// on va créer les objets node intermédiaire
-		this.alphaBody = alpha;
-		this.bravoBody = bravo;
-		// on récupère les positions
-		Vec2 posAlpha = this.alphaBody.getPosition();
-		Vec2 posBravo = point;
-		// on défini le vecteur de direction
-		Vec2 dir = posBravo.sub(posAlpha);
-		float lenghtTotal = dir.length();
-		dir.normalize();
-		// on défini la longueur des liens entre les nodes
-		float lenght = lenghtTotal / (float)nbNode;
-		// on compute les positions
-		Vec2 posNode = posAlpha;
-		// compute body
-		Body bodyNode = this.alphaBody;
 		
-		// on boucle pour créer les nodes
-		for(int i=1;i<nbNode;i++)
-		{
-			// on créer un node
-			posNode = posNode.add(dir.mul(lenght * i));
-			bodyNode = this.createNode(posNode, lenght, bodyNode);
-			this.listNodes.add(bodyNode);
-		}
-		
-		// on lie ensuite au node attach
-		// il faut accroche le nouveau body avec le body previous
 		DistanceJointDef distanceDef = new DistanceJointDef();
-		distanceDef.initialize(bodyNode,this.bodyAttach,bodyNode.getWorldCenter(),bodyAttach.getWorldCenter());
-		distanceDef.length = lenght;
+		distanceDef.initialize(Bodynode, this.braboBody, Bodynode.getWorldCenter(), point);
+		distanceDef.length = lengthNode;
 		distanceDef.collideConnected = false;
 		distanceDef.frequencyHz = 10;
 		distanceDef.dampingRatio = 10f;
 		distanceDef.type = JointType.DISTANCE;
-				// création du joint
-		DistanceJoint distance = (DistanceJoint) PhysicWorld.getWorldPhysic().createJoint(distanceDef);
 
-		
-		this.listNodes.add(bodyAttach);
+		// création du joint
+		DistanceJoint distance = (DistanceJoint) PhysicWorld.getWorldPhysic().createJoint(distanceDef);
 		
 	}
 	
@@ -144,7 +122,7 @@ public class Grapnel implements ICoreBase, Drawable
 		BodyDef def = new BodyDef();
 		def.active = true;
 		def.bullet = false;
-		def.fixedRotation = false;
+		def.fixedRotation = true;
 		def.position = pos;
 		def.type = BodyType.DYNAMIC;
 		
@@ -175,7 +153,6 @@ public class Grapnel implements ICoreBase, Drawable
 		distanceDef.type = JointType.DISTANCE;
 		// création du joint
 		DistanceJoint distance = (DistanceJoint) PhysicWorld.getWorldPhysic().createJoint(distanceDef);
-		
 		// retour du body
 		return body;
 		
@@ -184,25 +161,24 @@ public class Grapnel implements ICoreBase, Drawable
 	public void destroyGrapnel()
 	{
 		// on boucle dans la liste des nodes pour détruire les jointure
-		for(Body b : this.listNodes)
+		/*for(Vec2 b : this.listNodes)
 		{
 			// on détruit le body également
 			if(b.getJointList() != null)
 				PhysicWorld.getWorldPhysic().destroyJoint(b.getJointList().joint);
 			if(b != this.alphaBody)
 				PhysicWorld.getWorldPhysic().destroyBody(b);
-		}
+		}*/
 		
-		if(this.alphaBody != null && this.bravoBody != null)
+		if(this.alphaBody != null && this.braboBody != null)
 		{
 		
 			if(this.alphaBody.getJointList() != null)
 				PhysicWorld.getWorldPhysic().destroyJoint(this.alphaBody.getJointList().joint);
-			if(this.bravoBody.getJointList() != null)
-				PhysicWorld.getWorldPhysic().destroyJoint(this.bravoBody.getJointList().joint);
+			if(this.braboBody.getJointList() != null)
+				PhysicWorld.getWorldPhysic().destroyJoint(this.braboBody.getJointList().joint);
 			
-	
-			PhysicWorld.getWorldPhysic().destroyBody(bodyAttach);
+			PhysicWorld.getWorldPhysic().destroyBody(this.braboBody);
 		}
 		// on vide la liste
 		this.listNodes.clear();
@@ -214,13 +190,12 @@ public class Grapnel implements ICoreBase, Drawable
 		// on vide le vectors
 		vectors.clear();
 		// on boucle dans la liste des nodes pour crée les point de la ligne
-		for(Body b : listNodes)
+		for(Vec2 b : listNodes)
 		{
 			// on crée un vertex
-			Vertex v = new Vertex(new Vector2f(b.getPosition().x * PhysicWorld.getRatioPixelMeter(),b.getPosition().y * PhysicWorld.getRatioPixelMeter()),Color.WHITE);
+			Vertex v = new Vertex(new Vector2f(b.x * PhysicWorld.getRatioPixelMeter(),b.y * PhysicWorld.getRatioPixelMeter()),Color.WHITE);
 			// on ajoute dans le vectors
 			vectors.add(v);
-			
 		}
 		
 		// render

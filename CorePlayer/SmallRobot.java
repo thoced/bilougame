@@ -67,12 +67,10 @@ public class SmallRobot extends RobotBase
 				//bodyDef.gravityScale = 0f;
 				
 			
-				
 				body = PhysicWorld.getWorldPhysic().createBody(bodyDef);
 				body.setUserData(this);
 				body.setFixedRotation(true);
-				
-
+			
 				// initialisation du body
 			
 				//body.setFixedRotation(true);
@@ -153,12 +151,21 @@ public class SmallRobot extends RobotBase
 						// on lance ensuite le grapnel
 						grapnel = new Grapnel(body,b,4);*/
 					}
-					else
+					else if(this.clikLeft &&  !Mouse.isButtonPressed(Button.LEFT))
 					{
 						// le clik gauche n'est plus enfoncé
 						this.clikLeft = false;
+						
 						if(this.managerGrapnel != null)
+						{
+							// on récupère le point de contact
+							Vec2 pointContact = this.managerGrapnel.getRayCast().getPointContact();
+							// on récupère le body contact
+							Body bodyContact = this.managerGrapnel.getRayCast().getBodyContact();
+							// on lance le grapnel
+							grapnel = new Grapnel(body,bodyContact,pointContact,4);
 							Manager.getListManager().remove(this.managerGrapnel);
+						}
 					}
 					
 					
@@ -168,7 +175,9 @@ public class SmallRobot extends RobotBase
 					{
 						// on détruit le grapnel
 						if(grapnel != null)
+						{
 							grapnel.destroyGrapnel();
+						}
 						
 					}
 			

@@ -22,6 +22,22 @@ public class ManagerGrapnel extends ManagerBase
 	// rayCastGrapnel
 	private rayCastGrapnel rayCast;
 	
+	
+	
+	/**
+	 * @return the rayCast
+	 */
+	public rayCastGrapnel getRayCast() {
+		return rayCast;
+	}
+
+	/**
+	 * @param rayCast the rayCast to set
+	 */
+	public void setRayCast(rayCastGrapnel rayCast) {
+		this.rayCast = rayCast;
+	}
+
 	public ManagerGrapnel(Vec2 posStart)
 	{
 		// copie de la position de départ
