@@ -17,6 +17,8 @@ import org.jbox2d.dynamics.joints.DistanceJoint;
 import org.jbox2d.dynamics.joints.JointEdge;
 import org.jbox2d.dynamics.joints.JointType;
 import org.jbox2d.dynamics.joints.PulleyJointDef;
+import org.jbox2d.dynamics.joints.RopeJoint;
+import org.jbox2d.dynamics.joints.RopeJointDef;
 import org.jbox2d.dynamics.joints.WeldJointDef;
 import org.jsfml.graphics.Color;
 import org.jsfml.graphics.Drawable;
@@ -49,12 +51,15 @@ public class Grapnel implements ICoreBase, Drawable
 	private List<Body> listNodes;
 	// VertexArray
 	private VertexArray vectors;
+	// rope joint
+	private RopeJoint rope;
 	
 	
 	private org.jsfml.graphics.CircleShape circleShape;
 	
 	public Grapnel(Body alpha,Body bravo,Vec2 point, int nbNode)
 	{
+		
 		this.listNodes = new ArrayList<Body>();
 		this.listNodes.add(alpha);
 		// on instancie le vertex array
@@ -84,8 +89,6 @@ public class Grapnel implements ICoreBase, Drawable
 		// fixture
 		bodyAttach.createFixture(fixtureDef);
 		
-		
-		
 		// on lie en weld l'objet
 		WeldJointDef wd = new WeldJointDef();
 		wd.initialize(bodyAttach, bravo, point);
@@ -105,6 +108,11 @@ public class Grapnel implements ICoreBase, Drawable
 		Vec2 dir = posBravo.sub(posAlpha);
 		float lenghtTotal = dir.length();
 		dir.normalize();
+		// saut (permet de faire sauter le robot lorsque il lance le grappin
+		// avec anulation légère de la velocity déja présente
+		Vec2 pulse = alpha.getLinearVelocity().mul(128);
+		alpha.applyForce(dir.mul(5000).sub(pulse),alpha.getWorldCenter());
+		//if(alpha.getLinearVelocity().length())
 		// on défini la longueur des liens entre les nodes
 		float lenght = lenghtTotal / (float)nbNode;
 		// on compute les positions
@@ -112,30 +120,33 @@ public class Grapnel implements ICoreBase, Drawable
 		// compute body
 		Body bodyNode = this.alphaBody;
 		
-		// on boucle pour créer les nodes
-		for(int i=1;i<nbNode;i++)
+		// on boudcle pour créer les nodes
+		/*for(int i=1;i<nbNode;i++)
 		{
 			// on créer un node
 			posNode = posNode.add(dir.mul(lenght * i));
 			bodyNode = this.createNode(posNode, lenght, bodyNode);
 			this.listNodes.add(bodyNode);
-		}
+		}*/
 		
 		// on lie ensuite au node attach
 		// il faut accroche le nouveau body avec le body previous
-		DistanceJointDef distanceDef = new DistanceJointDef();
-		distanceDef.initialize(bodyNode,this.bodyAttach,bodyNode.getWorldCenter(),bodyAttach.getWorldCenter());
-		distanceDef.length = lenght;
-		distanceDef.collideConnected = false;
-		distanceDef.frequencyHz = 15f;
-		distanceDef.dampingRatio = 1f;
-		distanceDef.type = JointType.DISTANCE;
-				// création du joint
-		DistanceJoint distance = (DistanceJoint) PhysicWorld.getWorldPhysic().createJoint(distanceDef);
+		RopeJointDef ropeDef;
+		ropeDef = new RopeJointDef();
+		ropeDef.bodyA = bodyNode;
+		ropeDef.bodyB = bodyAttach;
+		ropeDef.localAnchorA.set(bodyNode.getLocalCenter());
+		ropeDef.localAnchorB.set(bodyAttach.getLocalCenter());
+		ropeDef.maxLength = lenghtTotal * 0.6f;
+		ropeDef.collideConnected = true;
+		ropeDef.type = JointType.ROPE;
+		
+				// création du joint rope
+		rope =  (RopeJoint) PhysicWorld.getWorldPhysic().createJoint(ropeDef);
+		
 
-		
 		this.listNodes.add(bodyAttach);
-		
+	
 	}
 	
 	private Body createNode(Vec2 pos,float lenght,Body bodyNodePrevious)
@@ -155,26 +166,35 @@ public class Grapnel implements ICoreBase, Drawable
 		circle.m_radius = 0.1f;
 		// Fixture definition
 		FixtureDef fixtureDef = new FixtureDef();
-		fixtureDef.density = 1f;
+		fixtureDef.density = 4f;
 		fixtureDef.friction = 1f;
 		fixtureDef.restitution = 0f;
 		fixtureDef.isSensor = true;
 		fixtureDef.shape = circle;
 		// creation du fixture
 		body.createFixture(fixtureDef);
-		// on retourne le body créé
+		// on retourne le body créé12
 		
+		RopeJointDef ropeDef;
+		ropeDef = new RopeJointDef();
+		ropeDef.bodyA = bodyNodePrevious;
+		ropeDef.bodyB = body;
+		ropeDef.localAnchorA.set(bodyNodePrevious.getLocalCenter());
+		ropeDef.localAnchorB.set(body.getLocalCenter());
+		ropeDef.maxLength = lenght * 0.7f;
+		ropeDef.collideConnected = true;
+		ropeDef.type = JointType.ROPE;
 				
 		// il faut accroche le nouveau body avec le body previous
-		DistanceJointDef distanceDef = new DistanceJointDef();
+	/*	DistanceJointDef distanceDef = new DistanceJointDef();
 		distanceDef.initialize(bodyNodePrevious,body,bodyNodePrevious.getWorldCenter(),body.getWorldCenter());
 		distanceDef.length = lenght;
 		distanceDef.collideConnected = false;
-		distanceDef.frequencyHz = 15f;
-		distanceDef.dampingRatio = 1f;
-		distanceDef.type = JointType.DISTANCE;
+		distanceDef.frequencyHz = 30f;
+		distanceDef.dampingRatio = 100f;
+		distanceDef.type = JointType.DISTANCE;*/
 		// création du joint
-		DistanceJoint distance = (DistanceJoint) PhysicWorld.getWorldPhysic().createJoint(distanceDef);
+		RopeJoint rope = (RopeJoint) PhysicWorld.getWorldPhysic().createJoint(ropeDef);
 		
 		// retour du body
 		return body;
@@ -228,10 +248,10 @@ public class Grapnel implements ICoreBase, Drawable
 		
 	}
 
-	@Override
-	public void update(Time deltaTime) {
-		// TODO Auto-generated method stub
-		
+	
+	public void update(Time deltaTime) 
+	{
+	
 	}
 
 	@Override
