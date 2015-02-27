@@ -32,20 +32,38 @@ public class DoorFx extends BaseFx
 	private Body bodyDoor;
 	// activation
 	private boolean active = false;
+	// isOpening
+	private boolean isOpening = false;
+	// isClosing
+	private boolean isClosing = false;
+	// isOpen
+	private boolean isOpen = false;
+	// isClose
+	private boolean isClosed = true;
 	// course
 	private float course;
+	// time open
+	private float timeOpen;
+	// speed
+	private float speed;
 	// position start (pour définir la position de départ)
 	private Vec2 posStart;
+	// position end
+	private Vec2 posEnd;
 	// timeStart
 	private Time timeStart;
 	// time addition
 	private Time timeAdd = new Clock().restart();
 	
-	public DoorFx(Vector2f pos,float course,boolean sens,float speed,float lenghtDetect)
+	public DoorFx(Vector2f pos,float timeOpen, float course,float speed)
 	{
 		super();
 		
 		this.course = course;
+		//
+		this.speed = speed;
+		//
+		this.timeOpen = timeOpen;
 		// chargement du fichier image
 		textureDoor = TexturesManager.GetTextureByName("door01.png");
 		spriteDoor = new Sprite(textureDoor);
@@ -61,28 +79,12 @@ public class DoorFx extends BaseFx
 		// shape
 		PolygonShape shape = new PolygonShape();
 		Vector2i size = textureDoor.getSize();
-		
-		/*float minX = -(size.x / PhysicWorld.getRatioPixelMeter()) / 2;
-		float maxX = -minX;
-		float minY = -(size.y / PhysicWorld.getRatioPixelMeter() / 2);
-		float maxY = -minY;
-		List<Vec2> v = new ArrayList<Vec2>(4);
-		Vec2 a1 = new Vec2(minX,minY);
-		Vec2 a2 = new Vec2(maxX,minY);
-		Vec2 a3 = new Vec2(maxX,maxY);
-		Vec2 a4 = new Vec2(minX,maxY);
-		v.add(a1);
-		v.add(a2);
-		v.add(a3);
-		v.add(a4);
-		Vec2[] tt = new Vec2[4];
-		v.toArray(tt);
-		shape.set((Vec2[]) tt, v.size());*/
+		// creation du shape
 		shape.setAsBox((size.x / PhysicWorld.getRatioPixelMeter())/2  , (size.y / PhysicWorld.getRatioPixelMeter())/2);
 		// FixtureDef
 		FixtureDef fixtureDef = new FixtureDef();
 		fixtureDef.density = 1f;
-		fixtureDef.friction = 1f;
+		fixtureDef.friction = 0f;
 		fixtureDef.restitution = 0f;
 		fixtureDef.shape = shape;
 		// creation du body
@@ -91,6 +93,9 @@ public class DoorFx extends BaseFx
 		bodyDoor.createFixture(fixtureDef);
 		// position start
 		this.posStart = bodyDoor.getPosition().clone();
+		// positon end
+		this.posEnd = this.posStart.clone();
+		this.posEnd = this.posEnd.add(new Vec2(0,-3f));
 		
 	}
 	
@@ -104,29 +109,63 @@ public class DoorFx extends BaseFx
 		// on récupère le body actor
 		Body actor = PlayerManager.getSmallRobot().getBody();
 		
+		// test de contact avec la porte
+		boolean isContact = false;	
+		// récupération des contacts
 		ContactEdge edge = bodyDoor.getContactList();
-		if(edge != null && edge.other == actor)
+		while(edge!=null)
 		{
-			this.active = true;
-			this.bodyDoor.setLinearVelocity(new Vec2(0,-1f));
+			if(edge.other == actor)
+			{
+				isContact = true; // il existe un contact avec l'actor
+				break;
+				
+			}	
+			
+			edge = edge.next;
+		}
+		
+		if(isContact && !this.isOpening) // il existe un contact
+		{
+			this.isClosing = false;
+			this.isOpening = true;
+			this.bodyDoor.setLinearVelocity(new Vec2(0,-1f * this.speed));
 			this.timeStart = new Clock().restart();
+			this.isClosed = false;
+		}
+		
+		// si la porte est en train de s'ouvrir et que l'on arrive en fin de course
+		if(this.isOpening && this.bodyDoor.getPosition().sub(this.posStart).length() >= this.course)
+		{
+			this.bodyDoor.setLinearVelocity(new Vec2(0,0));
+			this.isOpening = false;
+			this.isOpen = true;
 			this.timeAdd = this.timeStart;
 		}
 		
-		if(this.bodyDoor.getPosition().sub(this.posStart).length() >= this.course)
+		// si la porte est ouverte, on compute le timer
+		if(this.isOpen)
+		{
+			this.timeAdd = Time.add(this.timeAdd, deltaTime);
+			// si la porte est ouverte de plus de 3 secondes, on fait descendre la porte
+			if(this.timeAdd.asSeconds() > this.timeOpen)
+			{
+				this.bodyDoor.setLinearVelocity(new Vec2(0,1f * this.speed));
+				this.isOpen = false;
+				this.isClosing = true;
+			}
+		}
+		
+		// si la porte est en train de se fermer et que l'on arrive en fin de course
+		if(this.isClosing && this.bodyDoor.getPosition().sub(this.posEnd).length() >= this.course)
 		{
 			this.bodyDoor.setLinearVelocity(new Vec2(0,0));
 			this.posStart = this.bodyDoor.getPosition().clone();
-			this.active = false;
+			this.isClosing = false;
+			this.isClosed = true;
 		}
-		
-		
-		this.timeAdd = Time.add(this.timeAdd, deltaTime);
-			if(!this.active && this.timeAdd.asSeconds() > 3f)
-				this.bodyDoor.setLinearVelocity(new Vec2(0,1f));
-	}
-
 	
+	}
 	@Override
 	public void draw(RenderTarget render, RenderStates state) {
 		// TODO Auto-generated method stub
@@ -134,7 +173,7 @@ public class DoorFx extends BaseFx
 		// on positionne l'image
 		spriteDoor.setPosition(bodyDoor.getPosition().x * PhysicWorld.getRatioPixelMeter(),bodyDoor.getPosition().y * PhysicWorld.getRatioPixelMeter());
 		// affichage
-		render.draw(spriteDoor,state);
+		render.draw(spriteDoor);
 		
 	}
 	
