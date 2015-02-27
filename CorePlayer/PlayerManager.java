@@ -18,6 +18,34 @@ public class PlayerManager implements Drawable,ICoreBase
 	
 	
 	
+	/**
+	 * @return the smallRobot
+	 */
+	public static RobotBase getSmallRobot() {
+		return smallRobot;
+	}
+
+	/**
+	 * @param smallRobot the smallRobot to set
+	 */
+	public static void setSmallRobot(RobotBase smallRobot) {
+		PlayerManager.smallRobot = smallRobot;
+	}
+
+	/**
+	 * @return the bigRobot
+	 */
+	public static RobotBase getBigRobot() {
+		return bigRobot;
+	}
+
+	/**
+	 * @param bigRobot the bigRobot to set
+	 */
+	public static void setBigRobot(RobotBase bigRobot) {
+		PlayerManager.bigRobot = bigRobot;
+	}
+
 	public static void createSmallRobot(RobotBase base)
 	{
 		smallRobot = base;

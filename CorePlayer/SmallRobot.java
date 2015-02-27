@@ -54,6 +54,10 @@ public class SmallRobot extends RobotBase
 		private boolean clikLeft = false;
 		// Manager Grapnel
 		private ManagerGrapnel managerGrapnel;
+		// private le grappin est lancé
+		private boolean isGrapin = false;
+		// isAlive
+		private boolean isDead = false;
 		
 		
 	
@@ -104,6 +108,8 @@ public class SmallRobot extends RobotBase
 		// TODO Auto-generated method stub
 		super.update(deltaTime);
 		
+		
+		
 		// PHYSIQUE ET CONTROL
 		// si le robot est selectionné
 				if(this.isSelected)
@@ -124,34 +130,6 @@ public class SmallRobot extends RobotBase
 						PhysicWorld.setSlowMotion(true);
 						
 						
-												
-						// on récupère la position de la souris
-						/*Vector2i mousePosition = Mouse.getPosition();
-						// on transforme en coordonnée ecran
-						Vector2f mouseCoord = Manager.getRenderTexture().mapPixelToCoords(mousePosition);
-						// on transforme le tout pour les coordonnées Physiques
-						Vector2f mouseM2 = PhysicWorld.convertToM2(mouseCoord);
-						// on créer un body final pour le test
-						BodyDef def = new BodyDef();
-						def.type = BodyType.STATIC;
-						//def.position = body.getPosition().add(new Vec2(mouseM2.x,mouseM2.y));
-						def.position = new Vec2(mouseM2.x,mouseM2.y);
-						def.bullet = false;
-						def.active = true;
-						// shape
-						CircleShape circle = new CircleShape();
-						circle.m_radius = 0.1f;
-						// création du FixtureDef
-						FixtureDef fixtureDef = new FixtureDef();
-						fixtureDef.shape = circle;
-						fixtureDef.isSensor = true;
-						// création du body
-						Body b = PhysicWorld.getWorldPhysic().createBody(def);
-						// création du fixture
-						b.createFixture(fixtureDef);
-						
-						// on lance ensuite le grapnel
-						grapnel = new Grapnel(body,b,4);*/
 					}
 					else if(this.clikLeft &&  !Mouse.isButtonPressed(Button.LEFT))
 					{
@@ -164,11 +142,19 @@ public class SmallRobot extends RobotBase
 							Vec2 pointContact = this.managerGrapnel.getRayCast().getPointContact();
 							// on récupère le body contact
 							Body bodyContact = this.managerGrapnel.getRayCast().getBodyContact();
+							// on détruit le grapnel
+							if(grapnel != null)
+							{
+								grapnel.destroyGrapnel();
+							}
 							// on lance le grapnel
-							grapnel = new Grapnel(body,bodyContact,pointContact,4);
+							grapnel = new Grapnel(body,bodyContact,pointContact,2);
 							Manager.getListManager().remove(this.managerGrapnel);
 							// modification du slowmotion
 							PhysicWorld.setSlowMotion(false);
+							// on précise que le grappin est lancé
+							this.isGrapin = true;
+							
 						}
 					}
 					
@@ -178,42 +164,54 @@ public class SmallRobot extends RobotBase
 						if(grapnel != null)
 						{
 							grapnel.destroyGrapnel();
+							// on précise que le grappin est annulé
+							this.isGrapin = false;
 						}
 					}
 	
-					
-					if(  Keyboard.isKeyPressed(Keyboard.Key.D))
+					if((this.isGrapin && this.isground) || (!this.isGrapin) )
 					{
-						// si la touche D, la direction va vers la droite
-						body.applyForce(new Vec2(256,0),body.getWorldCenter());
+						if(  Keyboard.isKeyPressed(Keyboard.Key.D))
+						{
+							// si la touche D, la direction va vers la droite
+							body.applyForce(new Vec2(256,0),body.getWorldCenter());
+			
+							// sens selectionné
+							this.typeSens = SENS.DROITE;
+							// si le sens est différent, on possitionne les indice d'animation
+							if(this.backupSens != this.typeSens)
+								indAnim = 0;
+							// on sauvegarde le se96ns
+							this.backupSens = this.typeSens;
+						
 		
-						// sens selectionné
-						this.typeSens = SENS.DROITE;
-						// si le sens est différent, on possitionne les indice d'animation
-						if(this.backupSens != this.typeSens)
-							indAnim = 0;
-						// on sauvegarde le sens
-						this.backupSens = this.typeSens;
-	
 						
-					}else if( Keyboard.isKeyPressed(Keyboard.Key.Q))
-					{
-						// si la touche Q, la direction va vers la gauche
-						body.applyForce(new Vec2(-256,0),body.getWorldCenter());
-						
-						// sens selectionné
-						this.typeSens = SENS.GAUCHE;
-						// si le sens est différent, on possitionne les indice d'animation
-						if(this.backupSens != this.typeSens)
-							indAnim = 24;
-						
-						// on sauvegarde le sens
-						this.backupSens = this.typeSens;
+						}else if( Keyboard.isKeyPressed(Keyboard.Key.Q))
+						{
+							// si la touche Q, la direction va vers la gauche
+							body.applyForce(new Vec2(-256,0),body.getWorldCenter());
+							
+							// sens selectionné
+							this.typeSens = SENS.GAUCHE;
+							// si le sens est différent, on possitionne les indice d'animation
+							if(this.backupSens != this.typeSens)
+								indAnim = 24;
+							
+							// on sauvegarde le sens
+							this.backupSens = this.typeSens;
 
+						}
 					}
 					
-					if(!this.isSpace && this.isground && Keyboard.isKeyPressed(Keyboard.Key.SPACE))
+					// si le grappin est activé et que le joueur saute
+					if(!this.isSpace && this.isGrapin && Keyboard.isKeyPressed(Keyboard.Key.SPACE))
 					{
+						body.applyLinearImpulse(new Vec2(0,-48), body.getWorldCenter());
+						this.isSpace = true;
+					}
+					else if(!this.isSpace && this.isground && Keyboard.isKeyPressed(Keyboard.Key.SPACE))
+					{
+						
 						body.applyLinearImpulse(new Vec2(0,-72), body.getWorldCenter());
 						this.isground = false;
 						this.isSpace = true;
@@ -271,6 +269,8 @@ public class SmallRobot extends RobotBase
 				{
 					if(timeAnim.asSeconds() > 1f/24f)
 					{
+						
+						
 						indAnim++;
 						timeAnim = Time.ZERO;
 						if(indAnim > 17)
@@ -291,12 +291,43 @@ public class SmallRobot extends RobotBase
 						}
 					}
 				}
+				
+				// le perso meurt
+				if(this.isDead && this.typeSens == RobotBase.SENS.DROITE)
+				{
+					if(timeAnim.asSeconds() > 1f/24f)
+					{
+						indAnim++;
+						timeAnim = Time.ZERO;
+						if(indAnim > 113)
+						{
+							indAnim = 96;
+						}
+					}
+				}
+				
+				// le perso meurt
+				if(this.isDead && this.typeSens == RobotBase.SENS.GAUCHE)
+				{
+					if(timeAnim.asSeconds() > 1f/24f)
+					{
+						indAnim++;
+						timeAnim = Time.ZERO;
+						if(indAnim > 140)
+						{
+							indAnim = 120;
+						}
+					}
+				}
+				
 		// update de l'animation
 		spritePlayer.setTextureRect(vectorAnim[indAnim]);
 		// choix de l'anim
 		timeAnim = Time.add(deltaTime, timeAnim);
 		
-	
+		// update grapnel
+		if(grapnel != null)
+			grapnel.update(deltaTime);
 		
 		
 	}
@@ -323,7 +354,7 @@ public class SmallRobot extends RobotBase
 		Vector2i size = TexturesManager.GetTextureByName("playerSmallRobot").getSize();
 		
 		// initialisation du vecteur d'animation
-		vectorAnim = new IntRect[96]; // 12 étant le nombre d'animation pour le player
+		vectorAnim = new IntRect[144]; // 12 étant le nombre d'animation pour le player
 		// on crée les floatrect
 		int x = 0;
 		int y = 0;

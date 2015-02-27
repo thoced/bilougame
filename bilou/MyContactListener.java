@@ -14,11 +14,10 @@ public class MyContactListener implements ContactListener {
 	@Override
 	public void beginContact(Contact contact) 
 	{
-		// TODO Auto-generated method stub
-			
+	// TODO Auto-generated method stub
+
 			do
 			{
-			
 				Object tempA = contact.m_fixtureA.m_body.getUserData();
 				Object tempB = contact.m_fixtureB.m_body.getUserData();
 					
@@ -44,7 +43,27 @@ public class MyContactListener implements ContactListener {
 	public void endContact(Contact contact)
 	{
 		// TODO Auto-generated method stub
+		do
+		{
 		
+			Object tempA = contact.m_fixtureA.m_body.getUserData();
+			Object tempB = contact.m_fixtureB.m_body.getUserData();
+				
+			if(tempA != null && tempA.getClass().getSuperclass() == RobotBase.class)
+			{
+				((RobotBase)tempA).setIsground(false);
+
+			}
+			
+
+			if(tempB != null && tempB.getClass().getSuperclass() == RobotBase.class)
+			{
+				((RobotBase)tempB).setIsground(false);
+			}
+			
+		contact = contact.getNext();
+		
+		}while(contact != null);
 		
 	}
 

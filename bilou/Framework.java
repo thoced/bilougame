@@ -38,6 +38,7 @@ import CoreDrawableCalqueManager.DrawableCalqueBase;
 import CoreDrawableCalqueManager.DrawableCalqueDynamic;
 import CoreDrawableCalqueManager.DrawableCalqueManager;
 import CoreDrawableCalqueManager.DrawableCalquePhysic;
+import CoreFx.DoorFx;
 import CoreFx.LustreFx;
 import CoreFx.ManagerFx;
 import CoreManager.Manager;
@@ -153,7 +154,7 @@ public class Framework
 		// RenderState
 		shader = new Shader();
 		rStateBackground = new RenderStates(BlendMode.NONE);
-		rStateForeGround = new RenderStates(BlendMode.ADD);
+		rStateForeGround = new RenderStates(BlendMode.NONE);
 		
 		
 		// camera
@@ -192,7 +193,7 @@ public class Framework
 	
 	public void Update()
 	{
-		/*fps++;
+		fps++;
 		
 		Time deltaTime = frameClock.restart();
 		
@@ -204,9 +205,9 @@ public class Framework
 			fps=0;
 			fpsTime = Time.ZERO;
 		}
-		*/
 		
-		Time deltaTime =  org.jsfml.system.Time.getMilliseconds(10);
+		
+		
 		
 		// update camera
 		camera.update(deltaTime);
@@ -250,12 +251,6 @@ public class Framework
 		renderText.draw(background);
 		renderText.display();
 
-		
-		// on affiche les drawable calques
-		renderText.setView(camera.getView());
-		calquesManager.draw(renderText,rStateForeGround);
-		renderText.display();
-		
 		// appel a la methode draw de l'entites manager
 		renderText.setView(camera.getView());
 		//entitiesManager.draw(renderText,rStateForeGround);
@@ -265,13 +260,22 @@ public class Framework
 		// appel a la methode draw du fx manager
 		renderText.setView(camera.getView());
 		//entitiesManager.draw(renderText,rStateForeGround);
-		fxManager.draw(renderText, rStateForeGround);
+		fxManager.draw(renderText, rStateBackground);
 		renderText.display();
+		
+		// on affiche les drawable calques
+		renderText.setView(camera.getView());
+		calquesManager.draw(renderText,rStateBackground);
+		renderText.display();
+		
+		
 		
 		// Manager
 		renderText.setView(camera.getView());
 		manager.draw(renderText, rStateBackground);
 		renderText.display();
+		
+		
 		
 		// affichage dans la fenetre principale (écran)
 		window.clear(new Color(3,32,48));
@@ -496,6 +500,7 @@ public class Framework
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		// TODO Auto-generated catch block
 		System.out.println(tiled);
 		
 		// Chargement du background
@@ -505,11 +510,14 @@ public class Framework
 		//arrayElements.add(rob);
 		
 		// test du fx
-		LustreFx lustre = new LustreFx(new Vector2f(648f,1024f),16f);
+		LustreFx lustre = new LustreFx(new Vector2f(6300,36f),16f);
 		Manager.getManagerFx().insertFx(lustre);
 		
-		lustre = new LustreFx(new Vector2f(420f,1024f),16f);
+		lustre = new LustreFx(new Vector2f(6100f,36f),16f);
 		Manager.getManagerFx().insertFx(lustre);
+		
+		DoorFx door = new DoorFx(new Vector2f(6000f,168f),3f,3f,12f);
+		Manager.getManagerFx().insertFx(door);
 		
 		//lustre = new LustreFx(new Vector2f(648f,1128f),16f);
 		//Manager.getManagerFx().insertFx(lustre);

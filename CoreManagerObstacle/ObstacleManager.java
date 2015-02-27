@@ -109,7 +109,7 @@ public class ObstacleManager implements ICoreBase
 		// creation dufixture
 		FixtureDef fixture = new FixtureDef();
 		fixture.shape = cs;
-		fixture.friction = 0.4f;
+		fixture.friction = 0.6f;
 		fixture.density = 1f;
 		fixture.restitution = 0.0f;
 
